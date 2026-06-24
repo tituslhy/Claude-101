@@ -22,11 +22,11 @@ export default function Market() {
         subtitle="Revenue trajectory, the SpaceX compute deal, market share, the distillation attacks, and the infrastructure bet."
       />
 
-      <article style={{ position: 'relative', zIndex: 1, maxWidth: 680, margin: '0 auto', padding: '44px 40px 0' }}>
+      <article style={{ position: 'relative', zIndex: 1, maxWidth: 680, margin: '0 auto', padding: 'var(--pad-44) var(--gutter) 0' }}>
         <SectionDivider number="06" title="The Money" marginTop="0" />
 
         <p style={{ fontSize: 17, lineHeight: 1.75, margin: '0 0 22px' }}>
-          <span style={{ float: 'left', fontFamily: "'Instrument Serif',serif", fontSize: 78, lineHeight: 0.72, color: '#D85A30', padding: '6px 14px 0 0' }}>$</span>
+          <span style={{ float: 'left', fontFamily: "'Instrument Serif',serif", fontSize: 'var(--dropcap)', lineHeight: 0.72, color: '#D85A30', padding: '6px 14px 0 0' }}>$</span>
           965 billion valuation in May 2026, for a company founded in 2021 by researchers who left because they were scared. Five years later: approaching a trillion-dollar valuation, suing the Pentagon, and filing for an IPO.
         </p>
 
@@ -74,7 +74,7 @@ export default function Market() {
         <Viz11_SpaceXTimeline />
       </FullBleed>
 
-      <article style={{ position: 'relative', zIndex: 1, maxWidth: 680, margin: '0 auto', padding: '0 40px 0' }}>
+      <article style={{ position: 'relative', zIndex: 1, maxWidth: 680, margin: '0 auto', padding: '0 var(--gutter) 0' }}>
         <p style={{ fontSize: 17, lineHeight: 1.75, margin: '30px 0 30px' }}>
           Anthropic rents compute from SpaceX's data centre. SpaceX acquires Claude Code's main competitor. SpaceX's Cursor will likely switch from Claude API to xAI's Grok. SpaceX holds 90-day termination clauses on the compute deal. This relationship is simultaneously strategic partnership, infrastructure dependency, competitive threat, and the most expensive bromance in Silicon Valley.
         </p>
@@ -117,7 +117,7 @@ export default function Market() {
         <Viz13_DistillationFlow />
       </FullBleed>
 
-      <article style={{ position: 'relative', zIndex: 1, maxWidth: 680, margin: '0 auto', padding: '0 40px 0' }}>
+      <article style={{ position: 'relative', zIndex: 1, maxWidth: 680, margin: '0 auto', padding: '0 var(--gutter) 0' }}>
         <p style={{ fontSize: 17, lineHeight: 1.75, margin: '0 0 22px' }}>
           The honest complication: these were paying customers violating Anthropic's Terms of Service, not hackers who breached a system. They didn't steal weights or access anything they weren't technically permitted to touch — they violated the ToS prohibition against using outputs to train competing models. That's real. But "attack" is Anthropic's framing. The more neutral version: <span style={{ fontWeight: 500 }}>systematic ToS violation at industrial scale</span>. Meaningfully different.
         </p>
@@ -146,7 +146,7 @@ export default function Market() {
             <div
               key={i}
               style={{
-                display: 'grid', gridTemplateColumns: '140px 1fr', fontSize: 14,
+                display: 'grid', gridTemplateColumns: 'minmax(92px,110px) 1fr', fontSize: 14,
                 borderTop: i === 0 ? 'none' : '1px solid var(--line2)',
               }}
             >

@@ -1,5 +1,31 @@
 * { box-sizing: border-box; }
 
+:root {
+  --gutter: 40px;
+  --pad-84: 84px;
+  --pad-72: 72px;
+  --pad-64: 64px;
+  --pad-44: 44px;
+  --dropcap: 78px;
+  --chnum-col: 120px;
+  --chnum-font: 34px;
+  --quote-mark: 120px;
+}
+
+@media (max-width: 640px) {
+  :root {
+    --gutter: 18px;
+    --pad-84: 44px;
+    --pad-72: 40px;
+    --pad-64: 36px;
+    --pad-44: 26px;
+    --dropcap: 46px;
+    --chnum-col: 52px;
+    --chnum-font: 22px;
+    --quote-mark: 64px;
+  }
+}
+
 :root, :root[data-theme="light"] {
   --bg: #FBFAF7;
   --cell: #FBFAF7;
@@ -109,4 +135,22 @@ a {
 
 h1, h2, h3, p {
   margin: 0;
+}
+
+@keyframes drawerIn {
+  from { transform: translateX(100%); }
+  to { transform: translateX(0); }
+}
+
+@keyframes overlayIn {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+.nav-drawer {
+  animation: drawerIn .22s cubic-bezier(.2,.7,.2,1) both;
+}
+
+.nav-overlay {
+  animation: overlayIn .22s ease both;
 }

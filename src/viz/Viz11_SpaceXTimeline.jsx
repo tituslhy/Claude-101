@@ -1,6 +1,31 @@
 import { spaceXTimeline } from '../data/content';
+import { useIsMobile } from '../hooks/useIsMobile';
 
 export default function Viz11_SpaceXTimeline() {
+  const isMobile = useIsMobile(640);
+
+  if (isMobile) {
+    return (
+      <div style={{ background: 'var(--surface)', borderRadius: 4, padding: '22px 20px' }}>
+        {spaceXTimeline.map((ev, i) => (
+          <div key={ev.label} style={{ display: 'flex', gap: 14 }}>
+            <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', flex: 'none' }}>
+              <div style={{ width: 9, height: 9, borderRadius: '50%', background: '#D85A30', marginTop: 4, flex: 'none' }} />
+              {i < spaceXTimeline.length - 1 && (
+                <div style={{ width: 2, flex: 1, background: 'var(--line)', marginTop: 4 }} />
+              )}
+            </div>
+            <div style={{ paddingBottom: i < spaceXTimeline.length - 1 ? 20 : 0 }}>
+              <div style={{ fontFamily: "'JetBrains Mono',monospace", fontSize: 11, color: '#D85A30', letterSpacing: '0.04em' }}>{ev.date}</div>
+              <div style={{ fontSize: 13, color: 'var(--ink)', fontWeight: 500, marginTop: 4 }}>{ev.label}</div>
+              <div style={{ fontSize: 12, color: 'var(--faint)', marginTop: 3, lineHeight: 1.4 }}>{ev.detail}</div>
+            </div>
+          </div>
+        ))}
+      </div>
+    );
+  }
+
   return (
     <div style={{ background: 'var(--surface)', borderRadius: 4, height: 220, padding: '32px 24px 18px' }}>
       <div style={{ position: 'relative', width: '100%', height: '100%' }}>

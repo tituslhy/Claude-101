@@ -1,3 +1,5 @@
+import { useIsMobile } from '../hooks/useIsMobile';
+
 const TOOLS = ['GitHub', 'Slack', 'Postgres', 'Web Search', 'Google Drive', 'Custom Tool'];
 
 function Box({ x, y, w, h, label, sub, coral, big }) {
@@ -33,6 +35,7 @@ function DoubleArrow({ x1, y1, x2, y2 }) {
 }
 
 export default function Viz08_MCPArchitecture() {
+  const isMobile = useIsMobile(640);
   const toolCount = TOOLS.length;
   const svgH = 40 + toolCount * 44;
   const agentX = 20, agentW = 110, agentY = svgH / 2 - 26, agentH = 52;
@@ -41,8 +44,8 @@ export default function Viz08_MCPArchitecture() {
   const toolStartY = (svgH - (toolCount * 44 - 12)) / 2;
 
   return (
-    <div style={{ background: 'var(--surface)', borderRadius: 4, padding: '20px 24px' }}>
-      <svg viewBox={`0 0 540 ${svgH}`} width="100%" height={Math.max(220, svgH)}>
+    <div style={{ background: 'var(--surface)', borderRadius: 4, padding: '20px 24px', overflowX: isMobile ? 'auto' : 'visible' }}>
+      <svg viewBox={`0 0 540 ${svgH}`} width={isMobile ? 540 : '100%'} height={Math.max(220, svgH)} style={isMobile ? { display: 'block' } : undefined}>
         <defs>
           <marker id="arrowEnd" markerWidth="8" markerHeight="8" refX="6" refY="3" orient="auto">
             <path d="M0,0 L6,3 L0,6 Z" fill="var(--faint)" />

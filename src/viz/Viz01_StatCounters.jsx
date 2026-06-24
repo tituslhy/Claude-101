@@ -36,7 +36,7 @@ function Counter({ c }) {
 
 export default function Viz01_StatCounters() {
   return (
-    <div style={{ display: 'grid', gridTemplateColumns: 'repeat(4,1fr)', gap: 0 }}>
+    <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(140px, 1fr))', gap: '20px 0' }}>
       {heroCounters.map((c) => <Counter key={c.label} c={c} />)}
     </div>
   );

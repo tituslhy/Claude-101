@@ -30,11 +30,11 @@ export default function Models() {
         subtitle="The model family from Haiku to Mythos, the benchmarks, MCP as the universal socket, and the full product ecosystem."
       />
 
-      <article style={{ position: 'relative', zIndex: 1, maxWidth: 680, margin: '0 auto', padding: '44px 40px 0' }}>
+      <article style={{ position: 'relative', zIndex: 1, maxWidth: 680, margin: '0 auto', padding: 'var(--pad-44) var(--gutter) 0' }}>
         <SectionDivider number="03" title="The Model Family" marginTop="0" />
 
         <p style={{ fontSize: 17, lineHeight: 1.75, margin: '0 0 22px' }}>
-          <span style={{ float: 'left', fontFamily: "'Instrument Serif',serif", fontSize: 78, lineHeight: 0.72, color: '#D85A30', padding: '6px 14px 0 0' }}>O</span>
+          <span style={{ float: 'left', fontFamily: "'Instrument Serif',serif", fontSize: 'var(--dropcap)', lineHeight: 0.72, color: '#D85A30', padding: '6px 14px 0 0' }}>O</span>
           penAI names its models like software releases — GPT-4, GPT-5, GPT-5.5. Anthropic names its models after poetry forms — Haiku, Sonnet, Opus, Fable, Mythos. That is not a branding quirk. It is a values signal hiding in plain sight: <span style={{ fontWeight: 500 }}>one company is shipping versions, the other is shipping craft.</span>
         </p>
 

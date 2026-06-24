@@ -15,11 +15,11 @@ export default function Verdict() {
         subtitle="Full feature comparison, head-to-head scorecards, the decision matrix, and the Claude-vs-ChatGPT radar."
       />
 
-      <article style={{ position: 'relative', zIndex: 1, maxWidth: 680, margin: '0 auto', padding: '44px 40px 0' }}>
+      <article style={{ position: 'relative', zIndex: 1, maxWidth: 680, margin: '0 auto', padding: 'var(--pad-44) var(--gutter) 0' }}>
         <SectionDivider number="09" title="What Claude Does Better Than Anyone" marginTop="0" />
 
         <p style={{ fontSize: 17, lineHeight: 1.75, margin: '0 0 22px' }}>
-          <span style={{ float: 'left', fontFamily: "'Instrument Serif',serif", fontSize: 78, lineHeight: 0.72, color: '#D85A30', padding: '6px 14px 0 0' }}>A</span>
+          <span style={{ float: 'left', fontFamily: "'Instrument Serif',serif", fontSize: 'var(--dropcap)', lineHeight: 0.72, color: '#D85A30', padding: '6px 14px 0 0' }}>A</span>
           fter everything — the benchmarks, the outages, the subscription tiers — there is a shorter list that actually matters: the things Claude does that nothing else quite does. Not marginally better. Structurally different.
         </p>
 
@@ -51,7 +51,7 @@ export default function Verdict() {
         <Viz14_FeatureComparisonTable />
       </FullBleed>
 
-      <article style={{ position: 'relative', zIndex: 1, maxWidth: 680, margin: '0 auto', padding: '0 40px 0' }}>
+      <article style={{ position: 'relative', zIndex: 1, maxWidth: 680, margin: '0 auto', padding: '0 var(--gutter) 0' }}>
         <p style={{ fontSize: 17, lineHeight: 1.75, margin: '30px 0 30px' }}>
           None of that is a clean sweep for anyone. Claude leads on writing, reasoning, sycophancy resistance, MCP, and enterprise trust — and trails badly on free tier, media generation, and uptime. It's a map of trade-offs. Which is exactly why the decision depends on who's asking.
         </p>

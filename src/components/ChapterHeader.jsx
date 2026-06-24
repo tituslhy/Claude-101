@@ -1,6 +1,6 @@
 export default function ChapterHeader({ ghost, tag, title, italicWord, subtitle }) {
   return (
-    <section style={{ position: 'relative', maxWidth: 820, margin: '0 auto', padding: '72px 40px 0' }}>
+    <section style={{ position: 'relative', maxWidth: 820, margin: '0 auto', padding: 'var(--pad-72) var(--gutter) 0' }}>
       <div style={{
         position: 'absolute', top: 40, right: -10,
         fontFamily: "'Instrument Serif',serif", fontSize: 'clamp(180px,28vw,360px)', lineHeight: 0.8,
