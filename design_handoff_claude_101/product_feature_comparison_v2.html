@@ -1,0 +1,215 @@
+
+<h2 class="sr-only">Updated product feature comparison table across Perplexity, Gemini, Cursor, ChatGPT, and Claude with corrected scores, totals, and comments</h2>
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+.wrap{padding:1rem 0;font-family:var(--font-sans)}
+.filter-row{display:flex;flex-wrap:wrap;gap:6px;margin-bottom:1rem}
+.chip{font-size:11px;padding:3px 10px;border-radius:99px;border:0.5px solid var(--color-border-secondary);cursor:pointer;color:var(--color-text-secondary);background:var(--color-background-primary)}
+.chip.active{background:var(--color-background-info);color:var(--color-text-info);border-color:var(--color-border-info)}
+.tbl-wrap{overflow-x:auto;margin-bottom:1rem}
+table{width:100%;border-collapse:collapse;font-size:12px;min-width:980px}
+th{font-size:11px;font-weight:500;color:var(--color-text-secondary);padding:8px 6px;text-align:center;border-bottom:0.5px solid var(--color-border-secondary);white-space:nowrap}
+th.feat-h{text-align:left;width:155px}
+th.comment-h{text-align:left;min-width:220px}
+td{padding:6px 6px;border-bottom:0.5px solid var(--color-border-tertiary);vertical-align:top}
+td.feat{font-size:12px;color:var(--color-text-primary);font-weight:500;padding-right:8px;min-width:155px}
+td.feat small{display:block;font-size:10px;color:var(--color-text-tertiary);font-weight:400;margin-top:1px}
+td.score-td{text-align:center;white-space:nowrap}
+td.comment{font-size:11px;color:var(--color-text-secondary);line-height:1.5;min-width:220px}
+.cat-row td{background:var(--color-background-secondary);font-size:10px;font-weight:500;letter-spacing:0.05em;text-transform:uppercase;color:var(--color-text-tertiary);padding:5px 6px}
+.pip{display:inline-block;width:30px;height:30px;border-radius:50%;font-size:11px;font-weight:500;line-height:30px;text-align:center}
+.s10{background:#C0DD97;color:#27500A}
+.s9h{background:#D5E8B4;color:#1D6B0F}
+.s9{background:#D5E8B4;color:#3B6D11}
+.s8h{background:#C8EEDF;color:#0A5E48}
+.s8{background:#E1F5EE;color:#0F6E56}
+.s7{background:#E6F1FB;color:#185FA5}
+.s6h{background:#E8E7FE;color:#4A41C0}
+.s6{background:#EEEDFE;color:#534AB7}
+.s5{background:#FAEEDA;color:#854F0B}
+.s4{background:#FAF0DC;color:#BA7517}
+.s3{background:#FCEBEB;color:#A32D2D}
+.sna{background:var(--color-background-secondary);color:var(--color-text-tertiary);font-size:10px;border:0.5px solid var(--color-border-tertiary)}
+.total-row td{border-top:1px solid var(--color-border-secondary);font-weight:500;padding:10px 6px}
+.total-row td.feat{font-size:12px}
+.tscore{font-size:15px;font-weight:500;text-align:center}
+.tcount{font-size:10px;font-weight:400;color:var(--color-text-tertiary)}
+.winner{color:#27500A}
+.legend{display:flex;gap:10px;flex-wrap:wrap;margin-top:1rem;padding-top:1rem;border-top:0.5px solid var(--color-border-tertiary)}
+.li{display:flex;align-items:center;gap:5px;font-size:10px;color:var(--color-text-secondary)}
+.ld{width:10px;height:10px;border-radius:50%}
+.note-box{font-size:11px;color:var(--color-text-secondary);background:var(--color-background-secondary);border-radius:var(--border-radius-md);padding:10px 14px;margin-bottom:1rem;line-height:1.6}
+</style>
+<div class="wrap">
+<div class="note-box">Scores incorporate Titus's corrections from lived experience. N/A = product genuinely doesn't have this feature (not scored as 0). Half-point scores shown where warranted. Total = sum of all rated features. Quality avg = total ÷ features rated.</div>
+<div class="filter-row">
+  <button class="chip active" onclick="filter('all',this)">All features</button>
+  <button class="chip" onclick="filter('Search & research',this)">Search & research</button>
+  <button class="chip" onclick="filter('Coding',this)">Coding</button>
+  <button class="chip" onclick="filter('Media generation',this)">Media</button>
+  <button class="chip" onclick="filter('Agentic',this)">Agentic</button>
+  <button class="chip" onclick="filter('Writing & analysis',this)">Writing</button>
+  <button class="chip" onclick="filter('Ecosystem',this)">Ecosystem</button>
+  <button class="chip" onclick="filter('UX & access',this)">UX</button>
+</div>
+<div class="tbl-wrap">
+<table id="tbl">
+<thead>
+<tr>
+  <th class="feat-h">Feature</th>
+  <th>Perplexity</th>
+  <th>Gemini</th>
+  <th>Cursor</th>
+  <th>ChatGPT</th>
+  <th>Claude</th>
+  <th class="comment-h">Honest verdict</th>
+</tr>
+</thead>
+<tbody id="tbody"></tbody>
+</table>
+</div>
+<div class="legend">
+  <div class="li"><div class="ld" style="background:#C0DD97"></div>10 Best in class</div>
+  <div class="li"><div class="ld" style="background:#D5E8B4"></div>9–9.5 Exceptional</div>
+  <div class="li"><div class="ld" style="background:#E1F5EE"></div>7–8.5 Strong</div>
+  <div class="li"><div class="ld" style="background:#EEEDFE"></div>6–6.5 Good</div>
+  <div class="li"><div class="ld" style="background:#FAEEDA"></div>4–5 Average</div>
+  <div class="li"><div class="ld" style="background:#FCEBEB"></div>1–3 Weak</div>
+  <div class="li"><div class="ld" style="background:var(--color-background-secondary);border:0.5px solid var(--color-border-tertiary)"></div>N/A</div>
+</div>
+</div>
+<script>
+const NA=null;
+const rows=[
+  // Search & research
+  {cat:'Search & research',feat:'Web search quality',sub:'Live index, freshness, citations',sc:[10,7,6,7,7],cm:'Perplexity built a 100B-page own index, 3.3x fresher than Google. Cursor has @web via Brave Search MCP — developer-contextual, not general. Gemini has native search but lower citation quality. Claude and ChatGPT have it as bolt-on.'},
+  {cat:'Search & research',feat:'Deep research reports',sub:'Multi-source synthesis, long-form',sc:[9.5,6,NA,7,9.5],cm:'Titus verdict: Claude blows the rest out of the water on depth and analysis quality. Perplexity a shade ahead on freshness of sources. ChatGPT Deep Research is thorough but shallower analysis. Gemini Deep Research often gets stuck in UI loops. Cursor: not applicable.'},
+  {cat:'Search & research',feat:'Citation accuracy',sub:'Sources verifiable, not hallucinated',sc:[9,9,NA,7,7],cm:'Perplexity and Gemini both prioritise citations structurally. Perplexity has 37% error rate vs 67% for others — architecture advantage. Gemini cites well in search/NotebookLM. Claude and ChatGPT both hallucinate citations under pressure.'},
+  {cat:'Search & research',feat:'Real-time information',sub:'Current events, live data',sc:[10,8,NA,7,7],cm:'Perplexity wins by architecture. Gemini has native search baked into every response. Claude and ChatGPT are equivalent on web search as bolt-on — same quality, neither structural leader. Cursor: not applicable for general search.'},
+  {cat:'Search & research',feat:'Document RAG / NotebookLM',sub:'Upload docs, ask questions, citations',sc:[7,7,NA,8,9.5],cm:'Titus verdict: Claude Projects does this far better — deep reasoning, persistent context, 1M token window. ChatGPT Projects is solid at 8. NotebookLM is excellent but purpose-limited — great audio overview, weaker analysis depth. Perplexity decent but not its strength.'},
+  {cat:'Search & research',feat:'Model council / multi-LLM answers',sub:'Same query across multiple LLMs',sc:[9.5,NA,NA,NA,NA],cm:'Perplexity exclusive. Run same query across Claude, GPT, Gemini, Grok simultaneously and compare. Genuinely useful for high-stakes decisions. Nobody else has this feature at all.'},
+
+  // Coding
+  {cat:'Coding',feat:'Terminal coding agent',sub:'Agentic, multi-file, codebase-aware',sc:[NA,6,NA,9.5,10],cm:'Claude Code is market leader — deepest MCP ecosystem, skills architecture, CLAUDE.md battle plans, cross-platform. Codex is extremely close at 9.5 — very mature, strong ecosystem. Antigravity CLI exists but less polished. Perplexity and Cursor: different paradigm.'},
+  {cat:'Coding',feat:'IDE integration',sub:'In-editor AI, inline diffs, tab complete',sc:[NA,10,10,6,6],cm:'Cursor and Antigravity both score 10 — same "rebuild the IDE around AI" philosophy. Cursor is more mature, Antigravity has Windsurf DNA. ChatGPT Canvas and Claude Code are panel/terminal-based — different paradigm, not IDE-native. Perplexity: not applicable.'},
+  {cat:'Coding',feat:'Cloud coding agents',sub:'Run without laptop on, fire-and-forget',sc:[NA,8,8.5,8.5,7],cm:'Codex and Cursor Background Agent are both exceptional. Antigravity 2.0 Desktop App purpose-built for this. Claude Code needs active terminal session — genuine gap. Codex slightly ahead of Cursor because Mac remote control is broader. Claude needs to close this.'},
+  {cat:'Coding',feat:'PR review / code review',sub:'Automated PR analysis and inline comments',sc:[NA,6,9,7,8.5],cm:'Cursor BugBot is strongest — automatic, GitHub integrated, auto-fix. Claude Code Review actually very strong: fleet of parallel specialized agents, inline comments, @claude review trigger — I undersold this. ChatGPT Codex does PR review. Gemini Jules handles this but GCP-native.'},
+  {cat:'Coding',feat:'Multi-model routing in IDE',sub:'Best model per task, cross-provider',sc:[NA,NA,10,NA,NA],cm:'Cursor exclusive. /best-of-n runs same task across GPT, Claude, Gemini simultaneously. Auto mode routes per task complexity. Compare results side by side. Gemini uses Gemini models only — N/A. Claude Code is Anthropic-only. This is Cursor\'s most underrated feature.'},
+  {cat:'Coding',feat:'Async agent (Jules / tasks)',sub:'Assign issue, get PR back',sc:[NA,9,8,8.5,10],cm:'Titus correction: Claude Code sandbox mode is 10/10 — unhinged capability. Codex is 8.5 (Mac remote control only). Cursor 8 because you still need to use the URL to open Cursor browser. Jules (Gemini) is excellent and GCP-native at 9. Claude wins this lane.'},
+  {cat:'Coding',feat:'Codebase semantic index',sub:'Understands entire repo without stuffing',sc:[NA,7,10,6,8],cm:'Cursor built its own semantic index — faster than context-stuffing, more surgical. Claude Code uses 1M token context window (different but also excellent). Antigravity has good understanding. ChatGPT Codex is improving. Perplexity: not a coding tool.'},
+  {cat:'Coding',feat:'MCP ecosystem depth',sub:'Tool integration via Model Context Protocol',sc:[5,6,9,6,10],cm:'Anthropic invented MCP — Claude Code has the deepest ecosystem. Cursor has strong dev-tool MCPs. Both have @web via MCP. ChatGPT adopted later. Gemini has it via ADK. Perplexity minimal. Protocol ownership is a compounding advantage for Claude.'},
+  {cat:'Coding',feat:'Web search in coding context',sub:'@web, docs lookup while coding',sc:[NA,7,7,6,7],cm:'Cursor has @web via Brave Search MCP natively, plus auto web search tool in agent mode — confirmed. Claude Code can web search during tasks. Antigravity can search. ChatGPT Codex can search. All roughly equivalent; Cursor edge for in-IDE integration.'},
+
+  // Media generation
+  {cat:'Media generation',feat:'Image generation',sub:'General purpose text-to-image',sc:[8,9,NA,10,NA],cm:'ChatGPT Images 2.0 is #1 on Image Arena — nothing at this price touches it. Gemini Nano Banana Pro is excellent. Perplexity bundles Seedream 4.5 on Max. Claude has no general image generation — biggest product gap. Cursor generates images into assets/ folder (dev context only).'},
+  {cat:'Media generation',feat:'Video generation',sub:'Text/image to video',sc:[7,9,NA,7,NA],cm:'Gemini Veo 3.1 via Flow is most capable — AI filmmaking focus, cinematic quality. ChatGPT Sora is solid. Perplexity bundles Veo 3.1 on Max. Claude has no video generation. Cursor: not applicable.'},
+  {cat:'Media generation',feat:'Music / audio generation',sub:'Generate songs, realistic audio',sc:[5,6,NA,8,NA],cm:'ChatGPT Advanced Voice is the gold standard for realistic audio. Gemini has music generation. Perplexity has limited audio. Cursor and Claude have nothing here. Claude voice is good for conversation, not music generation.'},
+  {cat:'Media generation',feat:'UI / design prototyping',sub:'Figma-adjacent mockups, interactive',sc:[NA,5,6,5,9.5],cm:'Claude Design is the clear category leader — 1M users in week 1, genuinely Figma-adjacent, interactive prototypes. Cursor generates images into assets folder (different use case). ChatGPT Canvas is doc/code only. Gemini has some features but not a design product. Perplexity: nothing.'},
+  {cat:'Media generation',feat:'Document creation',sub:'.docx, .pdf, formatted outputs',sc:[10,7,NA,7,8],cm:'Titus correction: Perplexity Computer is 10/10 — genuinely bonkers good at document production from research in one flow. Claude strong but you manage the pipeline. ChatGPT has doc export. Gemini integrates with Google Docs natively. Cursor: wrong room entirely.'},
+
+  // Agentic
+  {cat:'Agentic',feat:'Computer / desktop automation',sub:'Control entire computer via AI',sc:[10,6,NA,7,8],cm:'Titus correction: Perplexity Personal Computer is 10/10 — controls your whole Mac, full local file access, any app, cloud-executed. Claude Cowork does desktop automation but less mature. ChatGPT Atlas is browser-scoped. Gemini in Chrome limited. Cursor: not applicable.'},
+  {cat:'Agentic',feat:'Browser agent',sub:'Navigate web, click, fill forms',sc:[NA,7,NA,8,8],cm:'Titus: Perplexity IS the browser — you don\'t use a browser agent, you just use Perplexity. ChatGPT Atlas is strongest standalone browser agent. Claude in Chrome is solid at 8. Gemini in Chrome sees but struggles to act consistently. Cursor has browser control for testing apps only.'},
+  {cat:'Agentic',feat:'App building & live hosting',sub:'Build app + publish to live URL',sc:[10,NA,NA,NA,8],cm:'Perplexity wins this entirely — builds app AND hosts at *.pplx.app instantly, zero deploy config. Claude builds apps and can deploy single-page apps at 8 but multi-page apps break (relative paths, CSS not rendering). ChatGPT and Gemini: cannot host — N/A.'},
+  {cat:'Agentic',feat:'Scheduled / recurring tasks',sub:'Run tasks on schedule, deliver results',sc:[10,7,NA,7,9],cm:'Titus correction: Perplexity Tasks is 10 — consumer-friendly, email delivery, truly set-and-forget. Claude is 9 — strong /schedule in Claude Code, well-integrated. ChatGPT is 7 — not fully there yet. Gemini has it but less polished. Cursor: not applicable.'},
+  {cat:'Agentic',feat:'Mobile trigger / remote dispatch',sub:'Start agent from phone',sc:[10,NA,NA,8,10],cm:'Titus correction: Perplexity 10 and Claude 10 — both excellent mobile triggers. Codex is 8 (Mac remote control only). Gemini — cannot mobile-trigger agent workflows, N/A. Cursor has PWA but it\'s browser-based, not a native trigger.'},
+  {cat:'Agentic',feat:'Multi-agent orchestration',sub:'Spawn and coordinate multiple agents',sc:[8,7,8,7,8],cm:'All five capable. Perplexity routes across 19 external models. Cursor spawns parallel agents in worktrees, /best-of-n cross-model. Claude Code with AGENTS.md is most configurable. Gemini ADK is most extensible for builders. ChatGPT multi-agent works but less elegant config.'},
+
+  // Writing & analysis
+  {cat:'Writing & analysis',feat:'Prose writing quality',sub:'Long-form, narrative, voice adaptation',sc:[9.5,6.5,NA,8,10],cm:'Titus correction: Claude 10, Perplexity 9.5 (Opus as orchestrator + multi-agent gives it strength). Gemini 6.5 — verbose and drifts. ChatGPT 8 stays. Claude wins every writing dimension. Perplexity closer than expected because of the Opus routing. Cursor: wrong room.'},
+  {cat:'Writing & analysis',feat:'Data analysis',sub:'CSV, spreadsheets, Python execution',sc:[9.5,6.5,NA,9,10],cm:'Titus correction: Claude 10, Perplexity 9.5 (live web + data combination is unique — can compare your sales CSV against live benchmarks in one prompt). ChatGPT 9 stays. Gemini 6.5. Cursor: not applicable.'},
+  {cat:'Writing & analysis',feat:'Document Q&A',sub:'Upload doc, deep questioning',sc:[9.5,7,NA,8,10],cm:'Titus correction: Claude 10 — deep reasoning, 1M context, persistent Projects memory. Perplexity 9.5 — Opus orchestrator lifts quality significantly. ChatGPT 8 stays. Gemini 7 (NotebookLM is good but Gemini app is weaker). Cursor: not applicable.'},
+  {cat:'Writing & analysis',feat:'Reasoning quality',sub:'Complex multi-step logic',sc:[9.5,6.5,NA,9,10],cm:'Titus correction: Claude 10 — Extended Thinking is exceptional. Perplexity 9.5 (routes to Claude Opus). ChatGPT 9 stays. Gemini 6.5 — Deep Think is strong but less consistent. Cursor: not its job.'},
+  {cat:'Writing & analysis',feat:'Sycophancy resistance',sub:'Tells you when you\'re wrong',sc:[6,5,NA,6,9.5],cm:'Claude wins clearly — Constitutional AI makes it genuinely hold positions and push back. Titus correction: slight uplift across the board. ChatGPT and Perplexity both validate more than they should. Gemini can be very sycophantic. Cursor doesn\'t have opinions about your code quality (mostly good).'},
+  {cat:'Writing & analysis',feat:'Long context handling',sub:'1M+ token documents',sc:[5,9,6,7,9.5],cm:'Claude and Gemini both have genuine 1M token context. Titus correction: Claude 9.5 — reliability on long context is exceptional. Gemini stays at 9 — 2M context on 3.5 Flash. ChatGPT good to 128K. Cursor scopes to codebase. Perplexity is not built for long private docs.'},
+
+  // Ecosystem
+  {cat:'Ecosystem',feat:'Ecosystem integration',sub:'Your email, calendar, files, photos',sc:[10,10,NA,8,8],cm:'Titus correction: Perplexity 10 — connects cloud SaaS tools, connectors, strong integration surface. Gemini 10 — owns your email, photos, calendar, home, phone simultaneously (Faith screenshot!). Claude and ChatGPT both 8 — connect via MCP and apps. Cursor: developer tools only.'},
+  {cat:'Ecosystem',feat:'MCP / tool connections',sub:'Connect to external services',sc:[6,7,9,7,10],cm:'Claude invented MCP and has the broadest consumer + developer ecosystem. Cursor has the strongest dev-tool MCPs. ChatGPT adopted MCP well. Gemini has it via ADK but younger. Perplexity limited. Protocol ownership gives Claude a compounding structural advantage.'},
+  {cat:'Ecosystem',feat:'Enterprise / API maturity',sub:'Rate limits, SLAs, trust, audit',sc:[7,8,NA,8,9],cm:'Claude wins enterprise trust — 70% of head-to-head enterprise deals, refused DoD surveillance contract publicly, LTBT governance structure. ChatGPT has Microsoft Enterprise integration. Gemini has GCP enterprise. Perplexity less enterprise-mature. Cursor developer-focused.'},
+  {cat:'Ecosystem',feat:'Open source / on-premise option',sub:'Run locally or self-host',sc:[NA,8,NA,NA,NA],cm:'Gemini wins via Gemma 4 (Apache 2.0, 31B beats models 20x its size, runs on consumer GPU). The others are closed. Claude, ChatGPT, Cursor all closed. Perplexity uses open models underneath but isn\'t itself open source.'},
+  {cat:'Ecosystem',feat:'Agent framework for builders',sub:'Build and deploy agent systems',sc:[5,9,NA,7,8],cm:'Gemini ADK is most comprehensive — Python, TypeScript, Go, Java, Kotlin, deploys to GCP. Claude Code + MCP is the developer standard for agentic apps. ChatGPT has OpenAI Assistants. Perplexity Sonar API is search-specific. Cursor is a consumer coding tool, not a framework.'},
+
+  // UX & access
+  {cat:'UX & access',feat:'Free tier generosity',sub:'What you get without paying',sc:[7,10,NA,10,5],cm:'Titus correction: Gemini also 10 — Gemini Flash for free is very capable, generous limits. ChatGPT 10 — GPT-5.5 on free is extraordinary. Claude 5 — Sonnet with tight limits. Claude\'s biggest self-inflicted wound commercially. Cursor has a meaningful free tier for coding.'},
+  {cat:'UX & access',feat:'Voice mode',sub:'Real-time conversational voice',sc:[7,7,NA,10,7],cm:'Titus correction: Claude 7 — decent, not embarrassing. ChatGPT Advanced Voice is the gold standard — the interrupted-and-adapted demo. Gemini Live is strong. Perplexity Comet voice is good. All three at 7 are legitimately useful, ChatGPT is genuinely a different tier.'},
+  {cat:'UX & access',feat:'Memory / personalisation',sub:'Remembers you across sessions',sc:[5,6,NA,8,8],cm:'ChatGPT and Claude both 8 — mature memory systems. Claude memory via Projects is strong and contextual. ChatGPT memory is broader and more persistent. Gemini benefits from Google account context but less AI-specific memory. Perplexity memory is basic.'},
+  {cat:'UX & access',feat:'Privacy / data handling',sub:'Local execution, data residency, trust',sc:[4,6,NA,6,9],cm:'Claude wins on architecture — Cowork local execution, Enterprise HIPAA, LTBT governance. Perplexity has active class-action over tracking pixels. Gemini is Google (long data relationship history). ChatGPT has had incidents. For regulated industries: Claude, not negotiable.'},
+  {cat:'UX & access',feat:'Pricing clarity',sub:'Predictable bills, no surprise charges',sc:[4,7,8,7,9],cm:'Claude is the cleanest — flat rate, know exactly what you pay. Cursor is clear per-credit with explicit pools. Gemini is straightforward tiers. ChatGPT has some complexity. Perplexity credits system is genuinely confusing — auto-refill has burned users repeatedly.'},
+  {cat:'UX & access',feat:'Mobile app quality',sub:'Feature parity, UX on phone',sc:[7,8,NA,8,9],cm:'Claude mobile consistently rated best UX by practitioners. ChatGPT mobile is excellent and feature-rich (voice, images, everything). Gemini mobile benefits from Android deep integration. Perplexity mobile is great for quick research. Cursor has a PWA only.'},
+  {cat:'UX & access',feat:'Uptime / reliability',sub:'Available when you need it',sc:[8,9,NA,9,6],cm:'Claude has had significantly more outages than competitors — two in one day as recently as yesterday. ChatGPT and Gemini are substantially more reliable. Perplexity solid. This is Anthropic\'s most embarrassing operational gap. SpaceX compute deal should help but hasn\'t fully resolved.'},
+];
+
+function getClass(s){
+  if(s===NA)return'sna';
+  if(s>=10)return's10';
+  if(s>=9.5)return's9h';
+  if(s>=9)return's9';
+  if(s>=8.5)return's8h';
+  if(s>=8)return's8';
+  if(s>=7)return's7';
+  if(s>=6.5)return's6h';
+  if(s>=6)return's6';
+  if(s>=5)return's5';
+  if(s>=4)return's4';
+  return's3';
+}
+function fmt(s){return s===NA?'—':Number.isInteger(s)?s:s.toFixed(1)}
+
+let currentData=rows;
+
+function render(data){
+  const tbody=document.getElementById('tbody');
+  let html='';
+  let lastCat=null;
+  let totals=[0,0,0,0,0];
+  let counts=[0,0,0,0,0];
+
+  data.forEach(r=>{
+    if(r.cat!==lastCat){
+      html+=`<tr class="cat-row"><td colspan="7">${r.cat}</td></tr>`;
+      lastCat=r.cat;
+    }
+    r.sc.forEach((s,i)=>{if(s!==NA){totals[i]+=s;counts[i]++;}});
+    html+=`<tr>
+      <td class="feat">${r.feat}<small>${r.sub}</small></td>
+      ${r.sc.map(s=>`<td class="score-td"><span class="pip ${getClass(s)}">${fmt(s)}</span></td>`).join('')}
+      <td class="comment">${r.cm}</td>
+    </tr>`;
+  });
+
+  const maxTotal=Math.max(...totals);
+  const avgs=totals.map((t,i)=>counts[i]?Math.round(t/counts[i]*10)/10:0);
+  const maxAvg=Math.max(...avgs);
+
+  html+=`<tr class="total-row">
+    <td class="feat" style="font-size:13px">Total score<small>Sum of all rated features</small></td>
+    ${totals.map((t,i)=>{
+      const isWin=t===maxTotal;
+      const rounded=Math.round(t*10)/10;
+      return`<td class="tscore ${isWin?'winner':''}"><span class="pip ${getClass(rounded/counts[i])}" style="width:auto;border-radius:6px;padding:0 8px;font-size:13px">${rounded}</span><br><span class="tcount">${counts[i]} features</span></td>`;
+    }).join('')}
+    <td class="comment" style="font-size:11px;color:var(--color-text-tertiary)">N/A features excluded from total — a product that does fewer things well shouldn't be penalised for choosing its lane.</td>
+  </tr>`;
+
+  html+=`<tr class="total-row">
+    <td class="feat" style="font-size:13px">Quality average<small>Score ÷ features rated</small></td>
+    ${avgs.map((a,i)=>{
+      const isWin=a===maxAvg&&a>0;
+      return`<td class="tscore ${isWin?'winner':''}"><span class="pip ${getClass(a)}" style="width:auto;border-radius:6px;padding:0 8px;font-size:13px">${a.toFixed(1)}</span></td>`;
+    }).join('')}
+    <td class="comment" style="font-size:11px;color:var(--color-text-tertiary)">How good each product is at what it actually does. Cursor scores high here — it does fewer things but executes with surgical precision.</td>
+  </tr>`;
+
+  tbody.innerHTML=html;
+}
+
+function filter(cat,btn){
+  document.querySelectorAll('.chip').forEach(c=>c.classList.remove('active'));
+  btn.classList.add('active');
+  currentData=cat==='all'?rows:rows.filter(r=>r.cat===cat);
+  render(currentData);
+}
+
+render(rows);
+</script>

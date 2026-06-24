@@ -1,0 +1,468 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+  * { box-sizing: border-box; }
+  :root, :root[data-theme="light"] {
+    --bg:#FBFAF7; --cell:#FBFAF7; --surface:#F4F1EA;
+    --ink:#14130F; --ink2:#3a3935; --muted:#5F5E5A; --faint:#888780;
+    --fill:#FAECE7; --fillInk:#712B13; --fillLabel:#993C1D;
+    --ghost:#F1ECE3; --dashed:#D3C8BC;
+    --line:rgba(0,0,0,0.12); --line2:rgba(0,0,0,0.08); --lineStrong:rgba(0,0,0,0.15);
+    --navbg:rgba(251,250,247,0.82);
+  }
+  :root[data-theme="dark"] {
+    --bg:#191512; --cell:#221C17; --surface:#241E18;
+    --ink:#F3ECE2; --ink2:#D9D1C6; --muted:#A89F93; --faint:#8C8377;
+    --fill:rgba(216,90,48,0.16); --fillInk:#F1C4AE; --fillLabel:#E2966E;
+    --ghost:#241D17; --dashed:#4B4138;
+    --line:rgba(255,255,255,0.14); --line2:rgba(255,255,255,0.08); --lineStrong:rgba(255,255,255,0.22);
+    --navbg:rgba(25,21,18,0.82);
+  }
+  body { margin: 0; background:var(--bg); transition:background .3s ease; }
+  ::selection { background:#D85A30; color:#FBFAF7; }
+  .stretch { display:inline-block; transform:scaleX(1.16); transform-origin:left; }
+  @keyframes ticker { from { transform:translateX(0); } to { transform:translateX(-50%); } }
+  @keyframes rise { from { transform:translateY(14px); } to { transform:translateY(0); } }
+  .rise { animation:rise 0.7s cubic-bezier(.2,.7,.2,1) both; }
+  .lift { transition:background .25s ease, transform .25s ease; }
+  .lift:hover { background:var(--fill) !important; }
+  .lift:hover .arw { transform:translateX(6px); color:#D85A30; }
+  .arw { transition:transform .25s ease, color .25s ease; }
+</style>
+</helmet>
+<div ref="{{ rootRef }}" style="min-height:100vh; background:var(--bg); color:var(--ink); font-family:'Inter',-apple-system,system-ui,sans-serif; -webkit-font-smoothing:antialiased; overflow-x:hidden;">
+
+  <!-- reading progress spine -->
+  <div style="position:fixed; top:0; left:0; right:0; height:3px; z-index:60; background:transparent;">
+    <div ref="{{ progRef }}" style="height:100%; width:0%; background:#D85A30;"></div>
+  </div>
+
+  <!-- ===================== NAV ===================== -->
+  <nav style="position:sticky; top:0; z-index:50; display:flex; align-items:center; justify-content:space-between; padding:0 36px; height:62px; background:var(--navbg); backdrop-filter:saturate(180%) blur(14px); border-bottom:1px solid var(--line);">
+    <div onClick="{{ goStart }}" style="display:flex; align-items:baseline; gap:10px; cursor:pointer;">
+      <span style="font-family:'Instrument Serif',serif; font-size:24px; line-height:1;">Claude</span>
+      <span style="font-family:'Instrument Serif',serif; font-style:italic; font-size:24px; line-height:1; color:#D85A30;">101</span>
+    </div>
+    <div style="display:flex; align-items:center; gap:26px; height:100%;">
+      <sc-for list="{{ navItems }}" as="tab" hint-placeholder-count="5">
+        <div onClick="{{ tab.onClick }}" style="{{ tab.style }}">{{ tab.label }}</div>
+      </sc-for>
+      <div onClick="{{ goReference }}" style="{{ refStyle }}">Components</div>
+      <div onClick="{{ toggleTheme }}" title="Toggle theme" style="font-family:'JetBrains Mono',monospace; font-size:11px; letter-spacing:0.04em; text-transform:uppercase; cursor:pointer; color:var(--faint); border:1px solid var(--line); border-radius:999px; padding:6px 13px; transition:color .15s, border-color .15s;">{{ themeLabel }}</div>
+    </div>
+  </nav>
+
+  <!-- ===================== START ===================== -->
+  <sc-if value="{{ isStart }}" hint-placeholder-val="{{ true }}">
+  <main>
+    <!-- HERO -->
+    <section style="position:relative; max-width:1080px; margin:0 auto; padding:84px 40px 36px;">
+      <div class="rise" style="font-family:'JetBrains Mono',monospace; font-size:12px; letter-spacing:0.16em; text-transform:uppercase; color:var(--fillLabel); display:flex; align-items:center; gap:12px; margin-bottom:34px;">
+        <span style="width:7px; height:7px; border-radius:50%; background:#D85A30; display:inline-block;"></span>
+        Intelligence Dossier · N°01 · June 2026 · Independent &amp; unaffiliated
+      </div>
+      <h1 class="stretch" style="font-family:'Instrument Serif',serif; font-weight:400; font-size:clamp(72px,12vw,150px); line-height:0.92; letter-spacing:-0.02em; margin:0;">
+        Claude <span style="font-style:italic; color:#D85A30;">101</span>
+      </h1>
+      <p class="stretch" style="font-family:'Instrument Serif',serif; font-style:italic; font-size:clamp(20px,2.6vw,30px); line-height:1.3; color:var(--muted); margin:22px 0 0; max-width:660px;">The thinking person's field guide to Anthropic — the models, the money, the market, and the verdict nobody else will write down.</p>
+    </section>
+
+    <!-- FACT TICKER -->
+    <div style="border-top:1px solid var(--line); border-bottom:1px solid var(--line); overflow:hidden; padding:13px 0; margin:28px 0 0; background:var(--cell);">
+      <div style="display:flex; width:max-content; animation:ticker 38s linear infinite; font-family:'JetBrains Mono',monospace; font-size:13px; color:var(--muted); white-space:nowrap;">
+        <span style="padding-right:0;">{{ tickerLine }}</span>
+        <span aria-hidden="true">{{ tickerLine }}</span>
+      </div>
+    </div>
+
+    <!-- COUNTERS -->
+    <section style="max-width:1080px; margin:0 auto; padding:64px 40px 8px;">
+      <div style="display:grid; grid-template-columns:repeat(4,1fr); gap:0;">
+        <sc-for list="{{ counters }}" as="c" hint-placeholder-count="4">
+          <div style="border-left:2px solid #D85A30; padding:4px 0 4px 18px;">
+            <div style="font-family:'Instrument Serif',serif; font-size:clamp(40px,5vw,62px); line-height:1; letter-spacing:-0.01em;"><span data-count="{{ c.n }}" data-pre="{{ c.pre }}" data-suf="{{ c.suf }}" data-dec="{{ c.dec }}">{{ c.fallback }}</span></div>
+            <div style="font-family:'JetBrains Mono',monospace; font-size:11px; letter-spacing:0.08em; text-transform:uppercase; color:var(--faint); margin-top:12px;">{{ c.label }}</div>
+          </div>
+        </sc-for>
+      </div>
+    </section>
+
+    <!-- OPENING QUOTE -->
+    <section style="max-width:1080px; margin:0 auto; padding:64px 40px;">
+      <div style="display:grid; grid-template-columns:auto 1fr; gap:28px; align-items:start;">
+        <div style="font-family:'Instrument Serif',serif; font-size:120px; line-height:0.7; color:#D85A30;">“</div>
+        <div>
+          <p class="stretch" style="font-family:'Instrument Serif',serif; font-style:italic; font-size:clamp(24px,3.2vw,38px); line-height:1.28; color:var(--ink); margin:8px 0 18px; max-width:760px;">Most people meet Claude through a chat box. That's the front door of a building most of them never walk into. This dossier is the walk-through.</p>
+          <div style="font-family:'JetBrains Mono',monospace; font-size:12px; letter-spacing:0.08em; color:var(--fillLabel);">— TITUS LIM · 2026</div>
+        </div>
+      </div>
+    </section>
+
+    <!-- VIZ: Claude Stack -->
+    <section style="max-width:1080px; margin:0 auto; padding:0 40px 64px;">
+      <div style="font-family:'JetBrains Mono',monospace; font-size:11px; letter-spacing:0.12em; text-transform:uppercase; color:var(--faint); margin-bottom:14px;">Figure 0.1 — The Claude Stack</div>
+      <div style="background:var(--surface); border:1.5px dashed var(--dashed); border-radius:4px; height:200px; display:flex; align-items:center; justify-content:center;">
+        <div style="text-align:center;">
+          <div style="font-family:'JetBrains Mono',monospace; font-size:12px; letter-spacing:0.05em; color:var(--fillLabel); text-transform:uppercase;">[ VIZ · The Claude Stack diagram ]</div>
+          <div style="font-size:13px; color:var(--faint); margin-top:6px;">Claude Chat → Claude Design → Claude Code · Think / Visualize / Ship · coral arrows</div>
+        </div>
+      </div>
+    </section>
+
+    <!-- CONTENTS INDEX -->
+    <section style="max-width:1080px; margin:0 auto; padding:24px 40px 40px;">
+      <div style="font-family:'JetBrains Mono',monospace; font-size:11px; letter-spacing:0.14em; text-transform:uppercase; color:var(--faint); margin-bottom:8px; border-bottom:1px solid var(--line); padding-bottom:16px;">Contents — Four Parts, Eleven Chapters</div>
+      <sc-for list="{{ chapters }}" as="ch" hint-placeholder-count="4">
+        <div onClick="{{ ch.onClick }}" class="lift" style="display:grid; grid-template-columns:120px 1fr auto; align-items:center; gap:28px; padding:30px 20px; cursor:pointer; border-bottom:1px solid var(--line); background:transparent;">
+          <div style="font-family:'Instrument Serif',serif; font-size:34px; color:#D85A30; line-height:1;">{{ ch.num }}</div>
+          <div>
+            <div class="stretch" style="font-family:'Instrument Serif',serif; font-size:30px; line-height:1.1; letter-spacing:-0.01em;">{{ ch.title }}</div>
+            <div style="font-size:14px; line-height:1.55; color:var(--muted); margin-top:8px; max-width:560px;">{{ ch.desc }}</div>
+          </div>
+          <div class="arw" style="font-size:26px; color:var(--faint);">→</div>
+        </div>
+      </sc-for>
+    </section>
+
+    <!-- FOOTER -->
+    <footer style="max-width:1080px; margin:0 auto; padding:40px 40px 90px;">
+      <div style="font-family:'JetBrains Mono',monospace; font-size:11px; letter-spacing:0.06em; color:var(--faint);">CLAUDE 101 · AN INDEPENDENT INTELLIGENCE DOSSIER BY TITUS LIM · 2026 · NOT AFFILIATED WITH ANTHROPIC</div>
+    </footer>
+  </main>
+  </sc-if>
+
+  <!-- ===================== ORIGIN STORY ===================== -->
+  <sc-if value="{{ isOrigin }}" hint-placeholder-val="{{ true }}">
+  <main style="position:relative;">
+    <!-- ghost numeral -->
+    <div style="position:absolute; top:40px; right:-10px; font-family:'Instrument Serif',serif; font-size:clamp(180px,28vw,360px); line-height:0.8; color:var(--ghost); z-index:0; pointer-events:none; user-select:none;">01</div>
+
+    <section style="position:relative; z-index:1; max-width:820px; margin:0 auto; padding:72px 40px 0;">
+      <div style="font-family:'JetBrains Mono',monospace; font-size:12px; letter-spacing:0.14em; text-transform:uppercase; color:var(--fillLabel); margin-bottom:22px;">01–02 · Chapter One</div>
+      <h2 class="stretch" style="font-family:'Instrument Serif',serif; font-weight:400; font-size:clamp(48px,7vw,86px); line-height:0.98; letter-spacing:-0.02em; margin:0 0 22px;">Origin <span style="font-style:italic; color:#D85A30;">Story</span></h2>
+      <p style="font-size:17px; line-height:1.6; color:var(--muted); margin:0 0 12px; max-width:600px;">How a safety-first breakaway from OpenAI became a $965B company — and why control, not cash, is the thing to watch.</p>
+      <div style="height:1px; background:var(--line); margin:36px 0 0;"></div>
+    </section>
+
+    <article style="position:relative; z-index:1; max-width:680px; margin:0 auto; padding:44px 40px 0;">
+
+      <!-- divider -->
+      <div style="display:flex; align-items:baseline; gap:16px; margin:0 0 26px;">
+        <span style="font-family:'Instrument Serif',serif; font-size:30px; color:#D85A30; line-height:1;">01</span>
+        <span style="font-family:'Instrument Serif',serif; font-size:30px; line-height:1;">The Breakaway</span>
+      </div>
+
+      <p style="font-size:17px; line-height:1.75; margin:0 0 22px;"><span style="float:left; font-family:'Instrument Serif',serif; font-size:78px; line-height:0.72; color:#D85A30; padding:6px 14px 0 0;">I</span>n 2021, a group of senior OpenAI researchers — led by siblings Dario and Daniela Amodei — left to found Anthropic. The disagreement wasn't technical. It was about <span style="font-weight:500;">how seriously to take the risk</span> of the thing they were building.</p>
+
+      <!-- analogy -->
+      <div style="background:var(--fill); border-radius:4px; padding:24px 26px; margin:6px 0 28px;">
+        <div style="font-family:'JetBrains Mono',monospace; font-size:11px; letter-spacing:0.12em; text-transform:uppercase; color:var(--fillLabel); margin-bottom:12px;">◆ Analogy</div>
+        <p style="font-family:'Instrument Serif',serif; font-size:21px; line-height:1.45; color:var(--fillInk); margin:0;">Think of Anthropic as the engineers who quit the car company because management wanted to ship before the brakes were tested. They didn't hate cars. They wanted to build the brakes first — then discovered the brakes were a product people would pay for.</p>
+      </div>
+
+      <p style="font-size:17px; line-height:1.75; margin:0 0 30px;">The bet looked quixotic in 2021. By 2026 it looks like the most disciplined capital story in the industry. Here is the shape of it.</p>
+
+      <!-- stat grid -->
+      <div style="display:grid; grid-template-columns:repeat(3,1fr); gap:1px; background:var(--line); border:1px solid var(--line); border-radius:4px; overflow:hidden; margin:0 0 34px;">
+        <div style="background:var(--cell); padding:22px 20px;"><div style="font-family:'Instrument Serif',serif; font-size:42px; color:#D85A30; line-height:1;">2021</div><div style="font-family:'JetBrains Mono',monospace; font-size:11px; letter-spacing:0.06em; text-transform:uppercase; color:var(--faint); margin-top:10px;">Founded</div></div>
+        <div style="background:var(--cell); padding:22px 20px;"><div style="font-family:'Instrument Serif',serif; font-size:42px; color:#D85A30; line-height:1;">7</div><div style="font-family:'JetBrains Mono',monospace; font-size:11px; letter-spacing:0.06em; text-transform:uppercase; color:var(--faint); margin-top:10px;">Founders</div></div>
+        <div style="background:var(--cell); padding:22px 20px;"><div style="font-family:'Instrument Serif',serif; font-size:42px; color:#D85A30; line-height:1;">$965B</div><div style="font-family:'JetBrains Mono',monospace; font-size:11px; letter-spacing:0.06em; text-transform:uppercase; color:var(--faint); margin-top:10px;">Valuation '26</div></div>
+      </div>
+
+      <!-- VIZ timeline -->
+      <div style="margin:0 0 38px;">
+        <div style="font-family:'JetBrains Mono',monospace; font-size:11px; letter-spacing:0.12em; text-transform:uppercase; color:var(--faint); margin-bottom:12px;">Figure 1.1 — Founding timeline</div>
+        <div style="background:var(--surface); border:1.5px dashed var(--dashed); border-radius:4px; height:180px; display:flex; align-items:center; justify-content:center; padding:0 24px;">
+          <div style="text-align:center;"><div style="font-family:'JetBrains Mono',monospace; font-size:12px; color:var(--fillLabel); text-transform:uppercase; letter-spacing:0.05em;">[ VIZ · Anthropic founding timeline ]</div><div style="font-size:13px; color:var(--faint); margin-top:6px;">2021 founding → 2023 Claude 1 → 2024 Claude 3 → 2025 Claude 4 → 2026 Mythos/Fable · coral dots</div></div>
+        </div>
+      </div>
+
+      <!-- divider -->
+      <div style="display:flex; align-items:baseline; gap:16px; margin:44px 0 26px; padding-top:8px;">
+        <span style="font-family:'Instrument Serif',serif; font-size:30px; color:#D85A30; line-height:1;">02</span>
+        <span style="font-family:'Instrument Serif',serif; font-size:30px; line-height:1;">Whose Money, Whose Control</span>
+      </div>
+
+      <p style="font-size:17px; line-height:1.75; margin:0 0 26px;">Anthropic took enormous sums from Amazon and Google. The structure was engineered so that <span style="font-weight:500;">capital bought equity, not steering</span>. The board, not the cheque-writers, holds the wheel.</p>
+
+      <!-- highlight -->
+      <div style="background:var(--surface); border-radius:4px; padding:22px 24px; margin:0 0 30px; display:flex; gap:16px;">
+        <span style="flex:none; width:18px; height:18px; background:#D85A30; border-radius:4px; margin-top:3px;"></span>
+        <div>
+          <div style="font-size:16px; font-weight:600; margin-bottom:7px;">💡 Money flowed in. Control did not flow out.</div>
+          <div style="font-size:14px; line-height:1.6; color:var(--muted);">Amazon and Google both hold non-voting equity; Google's stake is contractually capped at 15%. The Long-Term Benefit Trust keeps veto power over the board — the safety mission is structurally protected from its own investors.</div>
+        </div>
+      </div>
+
+      <!-- table -->
+      <div style="border:1px solid var(--line); border-radius:4px; overflow:hidden; margin:0 0 30px;">
+        <div style="display:grid; grid-template-columns:1.3fr 1fr 1.3fr; background:var(--surface); font-family:'JetBrains Mono',monospace; font-size:11px; letter-spacing:0.05em; text-transform:uppercase; color:var(--muted);">
+          <div style="padding:12px 16px;">Backer</div><div style="padding:12px 16px;">Commitment</div><div style="padding:12px 16px;">Control rights</div>
+        </div>
+        <sc-for list="{{ backers }}" as="r" hint-placeholder-count="4">
+          <div style="display:grid; grid-template-columns:1.3fr 1fr 1.3fr; font-size:14px; border-top:1px solid var(--line2);">
+            <div style="padding:13px 16px; font-weight:500;">{{ r.name }}</div>
+            <div style="padding:13px 16px; color:var(--muted);">{{ r.commit }}</div>
+            <div style="{{ r.cellStyle }}">{{ r.rights }}</div>
+          </div>
+        </sc-for>
+      </div>
+
+      <!-- VIZ funding -->
+      <div style="margin:0 0 16px;">
+        <div style="font-family:'JetBrains Mono',monospace; font-size:11px; letter-spacing:0.12em; text-transform:uppercase; color:var(--faint); margin-bottom:12px;">Figure 1.2 — Funding comparison</div>
+        <div style="background:var(--surface); border:1.5px dashed var(--dashed); border-radius:4px; height:220px; display:flex; align-items:center; justify-content:center; padding:0 24px;">
+          <div style="text-align:center;"><div style="font-family:'JetBrains Mono',monospace; font-size:12px; color:var(--fillLabel); text-transform:uppercase; letter-spacing:0.05em;">[ VIZ · Funding comparison bar chart ]</div><div style="font-size:13px; color:var(--faint); margin-top:6px;">Amazon $4B+ · Google $10B+ · SpaceX $15B/yr · coral bars, Chart.js</div></div>
+        </div>
+      </div>
+
+      <!-- pull quote -->
+      <blockquote style="border-left:3px solid #D85A30; padding-left:26px; margin:40px 0;">
+        <p style="font-family:'Instrument Serif',serif; font-style:italic; font-size:27px; line-height:1.35; color:var(--ink); margin:0 0 14px;">Everyone obsesses over how much Amazon and Google put in. The more interesting number is how much steering they got for it: roughly none. That was the whole point.</p>
+        <div style="font-family:'JetBrains Mono',monospace; font-size:12px; letter-spacing:0.06em; color:var(--fillLabel);">— TITUS LIM · 2026</div>
+      </blockquote>
+
+      <!-- VIZ governance -->
+      <div style="margin:0 0 36px;">
+        <div style="font-family:'JetBrains Mono',monospace; font-size:11px; letter-spacing:0.12em; text-transform:uppercase; color:var(--faint); margin-bottom:12px;">Figure 1.3 — LTBT governance</div>
+        <div style="background:var(--surface); border:1.5px dashed var(--dashed); border-radius:4px; height:200px; display:flex; align-items:center; justify-content:center; padding:0 24px;">
+          <div style="text-align:center;"><div style="font-family:'JetBrains Mono',monospace; font-size:12px; color:var(--fillLabel); text-transform:uppercase; letter-spacing:0.05em;">[ VIZ · LTBT governance diagram ]</div><div style="font-size:13px; color:var(--faint); margin-top:6px;">Founders (control) ↔ LTBT Board (veto) / Amazon &amp; Google (non-voting, Google capped 15%)</div></div>
+        </div>
+      </div>
+
+      <!-- verdict -->
+      <div style="border:1px solid var(--lineStrong); border-radius:4px; padding:26px 28px; margin:0 0 56px; background:var(--cell);">
+        <div style="font-family:'JetBrains Mono',monospace; font-size:11px; letter-spacing:0.12em; text-transform:uppercase; color:#D85A30; margin-bottom:12px;">💡 The honest take</div>
+        <p style="font-size:16px; line-height:1.65; color:var(--ink2); margin:0;">Anthropic's governance is its real moat. Competitors can buy compute and hire researchers, but a structural commitment to keep safety above shareholders is hard to copy without meaning it. Whether it survives contact with a $965B valuation is the open question of the next two years.</p>
+      </div>
+
+      <!-- footer nav -->
+      <div style="border-top:1px solid var(--line); padding:24px 0 90px; display:flex; align-items:center; justify-content:space-between;">
+        <div onClick="{{ goStart }}" style="font-family:'JetBrains Mono',monospace; font-size:12px; color:#D85A30; cursor:pointer;">← Start</div>
+        <div style="font-family:'JetBrains Mono',monospace; font-size:11px; color:var(--faint);">TITUS LIM · 2026</div>
+        <div onClick="{{ goModels }}" style="font-family:'JetBrains Mono',monospace; font-size:12px; color:#D85A30; cursor:pointer;">Models &amp; Products →</div>
+      </div>
+    </article>
+  </main>
+  </sc-if>
+
+  <!-- ===================== STUBS ===================== -->
+  <sc-if value="{{ isStub }}" hint-placeholder-val="{{ true }}">
+  <main style="position:relative;">
+    <div style="position:absolute; top:40px; right:-10px; font-family:'Instrument Serif',serif; font-size:clamp(180px,28vw,360px); line-height:0.8; color:var(--ghost); z-index:0; pointer-events:none; user-select:none;">{{ stubGhost }}</div>
+    <section style="position:relative; z-index:1; max-width:820px; margin:0 auto; padding:72px 40px 0;">
+      <div style="font-family:'JetBrains Mono',monospace; font-size:12px; letter-spacing:0.14em; text-transform:uppercase; color:var(--fillLabel); margin-bottom:22px;">{{ stubTag }}</div>
+      <h2 class="stretch" style="font-family:'Instrument Serif',serif; font-weight:400; font-size:clamp(48px,7vw,86px); line-height:0.98; letter-spacing:-0.02em; margin:0 0 22px;">{{ stubTitle }}</h2>
+      <p style="font-size:17px; line-height:1.6; color:var(--muted); margin:0 0 36px; max-width:600px;">{{ stubDesc }}</p>
+      <div style="background:var(--surface); border:1.5px dashed var(--dashed); border-radius:4px; padding:54px 24px; text-align:center;">
+        <div style="font-family:'JetBrains Mono',monospace; font-size:12px; letter-spacing:0.05em; color:var(--fillLabel); text-transform:uppercase;">[ Built on the same anatomy as Origin Story ]</div>
+        <div style="font-size:14px; color:var(--faint); margin-top:10px; max-width:520px; margin-left:auto; margin-right:auto; line-height:1.6;">{{ stubViz }}</div>
+      </div>
+    </section>
+  </main>
+  </sc-if>
+
+  <!-- ===================== REFERENCE ===================== -->
+  <sc-if value="{{ isReference }}" hint-placeholder-val="{{ true }}">
+  <main style="max-width:960px; margin:0 auto; padding:72px 40px 90px;">
+    <div style="font-family:'JetBrains Mono',monospace; font-size:12px; letter-spacing:0.14em; text-transform:uppercase; color:var(--fillLabel); margin-bottom:22px;">Reference · For Claude Code</div>
+    <h2 class="stretch" style="font-family:'Instrument Serif',serif; font-weight:400; font-size:clamp(48px,7vw,80px); line-height:0.98; letter-spacing:-0.02em; margin:0 0 16px;">Component <span style="font-style:italic; color:#D85A30;">Library</span></h2>
+    <p style="font-size:17px; line-height:1.6; color:var(--muted); margin:0 0 44px; max-width:600px;">Every reusable block, in one place — labelled with name and spec so it reproduces verbatim across content pages.</p>
+
+    <div style="display:grid; grid-template-columns:repeat(2,1fr); gap:30px 34px;">
+
+      <div>
+        <div style="font-family:'JetBrains Mono',monospace; font-size:11px; letter-spacing:0.1em; text-transform:uppercase; color:var(--faint); margin-bottom:13px;">01 · Analogy box</div>
+        <div style="background:var(--fill); border-radius:4px; padding:20px 22px;">
+          <div style="font-family:'JetBrains Mono',monospace; font-size:11px; letter-spacing:0.12em; text-transform:uppercase; color:var(--fillLabel); margin-bottom:10px;">◆ Analogy</div>
+          <p style="font-family:'Instrument Serif',serif; font-size:19px; line-height:1.4; color:var(--fillInk); margin:0;">Fill defines it — no border. Mono tag, serif body on a #FAECE7 ground.</p>
+        </div>
+      </div>
+
+      <div>
+        <div style="font-family:'JetBrains Mono',monospace; font-size:11px; letter-spacing:0.1em; text-transform:uppercase; color:var(--faint); margin-bottom:13px;">02 · Stat grid</div>
+        <div style="display:grid; grid-template-columns:repeat(3,1fr); gap:1px; background:var(--line); border:1px solid var(--line); border-radius:4px; overflow:hidden;">
+          <div style="background:var(--cell); padding:16px;"><div style="font-family:'Instrument Serif',serif; font-size:32px; color:#D85A30; line-height:1;">80.3</div><div style="font-family:'JetBrains Mono',monospace; font-size:10px; text-transform:uppercase; color:var(--faint); margin-top:7px;">SWE-bench</div></div>
+          <div style="background:var(--cell); padding:16px;"><div style="font-family:'Instrument Serif',serif; font-size:32px; color:#D85A30; line-height:1;">5</div><div style="font-family:'JetBrains Mono',monospace; font-size:10px; text-transform:uppercase; color:var(--faint); margin-top:7px;">Tiers</div></div>
+          <div style="background:var(--cell); padding:16px;"><div style="font-family:'Instrument Serif',serif; font-size:32px; color:#D85A30; line-height:1;">10.3</div><div style="font-family:'JetBrains Mono',monospace; font-size:10px; text-transform:uppercase; color:var(--faint); margin-top:7px;">Market %</div></div>
+        </div>
+      </div>
+
+      <div>
+        <div style="font-family:'JetBrains Mono',monospace; font-size:11px; letter-spacing:0.1em; text-transform:uppercase; color:var(--faint); margin-bottom:13px;">03 · Highlight / insight</div>
+        <div style="background:var(--surface); border-radius:4px; padding:20px 22px; display:flex; gap:14px;">
+          <span style="flex:none; width:18px; height:18px; background:#D85A30; border-radius:4px; margin-top:3px;"></span>
+          <div><div style="font-size:15px; font-weight:600; margin-bottom:5px;">💡 Key insight</div><div style="font-size:13px; line-height:1.6; color:var(--muted);">Coral square accent, title in ink, body muted.</div></div>
+        </div>
+      </div>
+
+      <div>
+        <div style="font-family:'JetBrains Mono',monospace; font-size:11px; letter-spacing:0.1em; text-transform:uppercase; color:var(--faint); margin-bottom:13px;">04 · Titus pull-quote</div>
+        <blockquote style="border-left:3px solid #D85A30; padding-left:20px; margin:0;">
+          <p style="font-family:'Instrument Serif',serif; font-style:italic; font-size:22px; line-height:1.35; color:var(--ink); margin:0 0 10px;">Border only, no fill. Oversized serif italic, mono attribution.</p>
+          <div style="font-family:'JetBrains Mono',monospace; font-size:12px; color:var(--fillLabel);">— TITUS LIM · 2026</div>
+        </blockquote>
+      </div>
+
+      <div style="grid-column:span 2;">
+        <div style="font-family:'JetBrains Mono',monospace; font-size:11px; letter-spacing:0.1em; text-transform:uppercase; color:var(--faint); margin-bottom:13px;">05 · Data table</div>
+        <div style="border:1px solid var(--line); border-radius:4px; overflow:hidden;">
+          <div style="display:grid; grid-template-columns:1.5fr 1fr 1fr 1fr; background:var(--surface); font-family:'JetBrains Mono',monospace; font-size:11px; text-transform:uppercase; color:var(--muted);"><div style="padding:11px 16px;">Model</div><div style="padding:11px 16px;">SWE-bench</div><div style="padding:11px 16px;">Tier</div><div style="padding:11px 16px;">Verdict</div></div>
+          <div style="display:grid; grid-template-columns:1.5fr 1fr 1fr 1fr; font-size:14px; border-top:1px solid var(--line2);"><div style="padding:12px 16px; font-weight:500;">Fable 5</div><div style="padding:12px 16px; color:var(--muted);">80.3%</div><div style="padding:12px 16px; color:var(--muted);">Public</div><div style="padding:12px 16px; background:var(--fill); color:var(--fillInk);">Winner</div></div>
+          <div style="display:grid; grid-template-columns:1.5fr 1fr 1fr 1fr; font-size:14px; border-top:1px solid var(--line2);"><div style="padding:12px 16px; font-weight:500;">Opus 4.8</div><div style="padding:12px 16px; color:var(--muted);">69.2%</div><div style="padding:12px 16px; color:var(--muted);">Public</div><div style="padding:12px 16px; color:var(--muted);">Strong</div></div>
+        </div>
+      </div>
+
+      <div>
+        <div style="font-family:'JetBrains Mono',monospace; font-size:11px; letter-spacing:0.1em; text-transform:uppercase; color:var(--faint); margin-bottom:13px;">06 · Verdict / call-out</div>
+        <div style="border:1px solid var(--lineStrong); border-radius:4px; padding:20px 22px;">
+          <div style="font-family:'JetBrains Mono',monospace; font-size:11px; letter-spacing:0.12em; text-transform:uppercase; color:#D85A30; margin-bottom:10px;">💡 The honest take</div>
+          <p style="font-size:14px; line-height:1.6; color:var(--muted); margin:0;">Thin border, paper ground, coral mono tag. Holds the big point.</p>
+        </div>
+      </div>
+
+      <div>
+        <div style="font-family:'JetBrains Mono',monospace; font-size:11px; letter-spacing:0.1em; text-transform:uppercase; color:var(--faint); margin-bottom:13px;">07 · Section divider</div>
+        <div style="display:flex; align-items:baseline; gap:14px; padding-top:8px;">
+          <span style="font-family:'Instrument Serif',serif; font-size:28px; color:#D85A30; line-height:1;">02</span>
+          <span style="font-family:'Instrument Serif',serif; font-size:28px; line-height:1;">Whose Money, Whose Control</span>
+        </div>
+      </div>
+
+      <div style="grid-column:span 2;">
+        <div style="font-family:'JetBrains Mono',monospace; font-size:11px; letter-spacing:0.1em; text-transform:uppercase; color:var(--faint); margin-bottom:13px;">08 · Visualization placeholder</div>
+        <div style="background:var(--surface); border:1.5px dashed var(--dashed); border-radius:4px; height:120px; display:flex; align-items:center; justify-content:center;">
+          <div style="text-align:center;"><div style="font-family:'JetBrains Mono',monospace; font-size:12px; color:var(--fillLabel); text-transform:uppercase; letter-spacing:0.05em;">[ VIZ · Type &amp; description ]</div><div style="font-size:13px; color:var(--faint); margin-top:6px;">Dashed #D3C8BC on #F4F1EA · Figure N.N caption · sized to its chart</div></div>
+        </div>
+      </div>
+
+    </div>
+  </main>
+  </sc-if>
+
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script>
+class Component extends DCLogic {
+  state = { page: 'start', theme: 'light' };
+  rootRef = React.createRef();
+  progRef = React.createRef();
+
+  go(p) { this.setState({ page: p }); window.scrollTo(0, 0); }
+
+  toggleTheme() { this.setState(s => ({ theme: s.theme === 'light' ? 'dark' : 'light' })); }
+  applyTheme() { try { document.documentElement.setAttribute('data-theme', this.state.theme); } catch (e) {} }
+
+  navStyle(active) {
+    const base = "display:flex; align-items:center; height:100%; font-family:'JetBrains Mono',monospace; font-size:11px; letter-spacing:0.04em; text-transform:uppercase; cursor:pointer; transition:color .15s;";
+    return active
+      ? base + ' color:#D85A30; border-bottom:2px solid #D85A30;'
+      : base + ' color:var(--faint); border-bottom:2px solid transparent;';
+  }
+
+  animateCounters() {
+    const root = this.rootRef.current; if (!root) return;
+    root.querySelectorAll('[data-count]').forEach(el => {
+      const target = parseFloat(el.getAttribute('data-count'));
+      const dec = parseInt(el.getAttribute('data-dec') || '0', 10);
+      const pre = el.getAttribute('data-pre') || '';
+      const suf = el.getAttribute('data-suf') || '';
+      const dur = 1400, start = performance.now();
+      const step = (now) => {
+        const t = Math.min(1, (now - start) / dur);
+        const e = 1 - Math.pow(1 - t, 3);
+        const v = target * e;
+        el.textContent = pre + (dec ? v.toFixed(dec) : Math.round(v).toLocaleString()) + suf;
+        if (t < 1) requestAnimationFrame(step);
+      };
+      requestAnimationFrame(step);
+    });
+  }
+
+  onScroll = () => {
+    const bar = this.progRef.current; if (!bar) return;
+    const h = document.documentElement.scrollHeight - window.innerHeight;
+    bar.style.width = (h > 0 ? (window.scrollY / h) * 100 : 0) + '%';
+  };
+
+  componentDidMount() {
+    this.applyTheme();
+    this.animateCounters();
+    window.addEventListener('scroll', this.onScroll, { passive: true });
+    this.onScroll();
+  }
+  componentWillUnmount() { window.removeEventListener('scroll', this.onScroll); }
+  componentDidUpdate(_p, prev) {
+    this.applyTheme();
+    if (this.state.page === 'start' && (!prev || prev.page !== 'start')) this.animateCounters();
+    this.onScroll();
+  }
+
+  renderVals() {
+    const p = this.state.page;
+    const tabs = [
+      { id: 'start',    label: '00 Start' },
+      { id: 'origin',   label: '01–02 Origin' },
+      { id: 'models',   label: '03–05 Models' },
+      { id: 'business', label: '06–08 Market' },
+      { id: 'verdict',  label: '09–11 Verdict' },
+    ];
+    const navItems = tabs.map(t => ({ label: t.label, style: this.navStyle(p === t.id), onClick: () => this.go(t.id) }));
+
+    const counters = [
+      { n: '965', pre: '$', suf: 'B', dec: '0', fallback: '$965B', label: 'Valuation' },
+      { n: '245', pre: '',  suf: 'M', dec: '0', fallback: '245M',  label: 'Monthly users' },
+      { n: '47',  pre: '$', suf: 'B', dec: '0', fallback: '$47B',  label: 'Revenue run rate' },
+      { n: '13',  pre: '',  suf: '%', dec: '0', fallback: '13%',   label: 'Paid conversion' },
+    ];
+
+    const chapters = [
+      { num: '01–02', title: 'Origin Story', desc: 'The breakaway from OpenAI, and why control beat cash.', onClick: () => this.go('origin') },
+      { num: '03–05', title: 'Models & Products', desc: 'Haiku to Mythos, the benchmarks, MCP, and the ecosystem.', onClick: () => this.go('models') },
+      { num: '06–08', title: 'Business & Market', desc: 'Revenue, the SpaceX deal, market share, and the threats.', onClick: () => this.go('business') },
+      { num: '09–11', title: 'The Verdict', desc: 'Head-to-head scorecards and who should actually buy Claude.', onClick: () => this.go('verdict') },
+    ];
+
+    const cell = 'padding:13px 16px;';
+    const backers = [
+      { name: 'Amazon',    commit: '$4B+ cash',     rights: 'Non-voting',            cellStyle: cell + ' background:var(--fill); color:var(--fillInk);' },
+      { name: 'Google',    commit: '$10B+ cash',    rights: 'Non-voting · cap 15%',  cellStyle: cell + ' background:var(--fill); color:var(--fillInk);' },
+      { name: 'SpaceX',    commit: '$15B/yr compute',rights: 'Supplier only',        cellStyle: cell + ' color:var(--muted);' },
+      { name: 'LTBT Board',commit: '—',             rights: 'Veto power',            cellStyle: cell + ' background:var(--fill); color:var(--fillInk); font-weight:500;' },
+    ];
+
+    const tickerLine = '245M MONTHLY USERS  ·  $47B RUN RATE  ·  SWE-BENCH PRO 80.3%  ·  MCP — THE UNIVERSAL SOCKET  ·  220K SPACEX GPUS  ·  LTBT HOLDS THE VETO  ·  GOOGLE CAPPED AT 15%  ·  16M DISTILLATION EXCHANGES  ·  ';
+
+    const stubs = {
+      models:   { ghost: '03', tag: '03–05 · Chapter Two', title: 'Models & Products', desc: 'The model family from Haiku to Mythos, the benchmarks, MCP as the universal socket, and the full product ecosystem.', viz: 'Includes: model family hierarchy · SWE-bench Pro chart · MCP architecture diagram · product ecosystem map.' },
+      business: { ghost: '06', tag: '06–08 · Chapter Three', title: 'Business & Market', desc: 'Revenue trajectory, the SpaceX compute deal, market share, the distillation attacks, and the infrastructure bet.', viz: 'Includes: revenue line chart · SpaceX deal timeline · market-share donut · distillation infographic · compute map.' },
+      verdict:  { ghost: '09', tag: '09–11 · Chapter Four', title: 'The Verdict', desc: 'Full feature comparison, head-to-head scorecards, the decision matrix, and the Claude-vs-ChatGPT radar.', viz: 'Includes: feature comparison table · head-to-head scorecard · decision matrix · radar chart.' },
+    };
+    const stub = stubs[p] || stubs.models;
+
+    return {
+      rootRef: this.rootRef, progRef: this.progRef,
+      navItems, counters, chapters, backers, tickerLine,
+      refStyle: this.navStyle(p === 'reference'),
+      isStart: p === 'start', isOrigin: p === 'origin', isReference: p === 'reference',
+      isStub: ['models', 'business', 'verdict'].includes(p),
+      stubGhost: stub.ghost, stubTag: stub.tag, stubTitle: stub.title, stubDesc: stub.desc, stubViz: stub.viz,
+      goStart: () => this.go('start'), goReference: () => this.go('reference'), goModels: () => this.go('models'),
+      theme: this.state.theme, toggleTheme: () => this.toggleTheme(), themeLabel: this.state.theme === 'light' ? '☾ Dark' : '☀ Light',
+    };
+  }
+}
+</script>
+</body>
+</html>
