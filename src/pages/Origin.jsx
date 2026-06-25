@@ -21,11 +21,11 @@ export default function Origin() {
         subtitle="How a safety-first breakaway from OpenAI became a $965B company — and why control, not cash, is the thing to watch."
       />
 
-      <article style={{ position: 'relative', zIndex: 1, maxWidth: 680, margin: '0 auto', padding: '44px 40px 0' }}>
+      <article style={{ position: 'relative', zIndex: 1, maxWidth: 680, margin: '0 auto', padding: 'var(--pad-44) var(--gutter) 0' }}>
         <SectionDivider number="01" title="The Breakaway" marginTop="0" />
 
         <p style={{ fontSize: 17, lineHeight: 1.75, margin: '0 0 22px' }}>
-          <span style={{ float: 'left', fontFamily: "'Instrument Serif',serif", fontSize: 78, lineHeight: 0.72, color: '#D85A30', padding: '6px 14px 0 0' }}>I</span>
+          <span style={{ float: 'left', fontFamily: "'Instrument Serif',serif", fontSize: 'var(--dropcap)', lineHeight: 0.72, color: '#D85A30', padding: '6px 14px 0 0' }}>I</span>
           n 2021, a group of senior OpenAI researchers — led by siblings Dario and Daniela Amodei — left to found Anthropic. The disagreement wasn't technical. It was about <span style={{ fontWeight: 500 }}>how seriously to take the risk</span> of the thing they were building.
         </p>
 
@@ -49,7 +49,7 @@ export default function Origin() {
         <Viz03_FoundingTimeline />
       </FullBleed>
 
-      <article style={{ position: 'relative', zIndex: 1, maxWidth: 680, margin: '0 auto', padding: '0 40px 0' }}>
+      <article style={{ position: 'relative', zIndex: 1, maxWidth: 680, margin: '0 auto', padding: '0 var(--gutter) 0' }}>
         <p style={{ fontSize: 17, lineHeight: 1.75, margin: '0 0 22px' }}>
           Before Constitutional AI, the standard approach was RLHF — Reinforcement Learning from Human Feedback. Show the model outputs, humans rate them, the model learns what humans prefer. It works. It's also like training a student exclusively through 10,000 strangers grading their homework. <span style={{ fontWeight: 500 }}>Constitutional AI gives the model a set of explicit principles, then has it critique and revise its own outputs against those principles</span> — be helpful, be harmless, be honest, don't deceive, don't assist with serious harm, respect human autonomy.
         </p>

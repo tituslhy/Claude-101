@@ -11,7 +11,7 @@ export default function Start() {
   return (
     <main>
       {/* HERO */}
-      <section style={{ position: 'relative', maxWidth: 1080, margin: '0 auto', padding: '84px 40px 36px' }}>
+      <section style={{ position: 'relative', maxWidth: 1080, margin: '0 auto', padding: 'var(--pad-84) var(--gutter) 36px' }}>
         <div className="rise" style={{
           fontFamily: "'JetBrains Mono',monospace", fontSize: 12, letterSpacing: '0.16em', textTransform: 'uppercase',
           color: 'var(--fillLabel)', display: 'flex', alignItems: 'center', gap: 12, marginBottom: 34,
@@ -30,14 +30,14 @@ export default function Start() {
       <FactTicker />
 
       {/* COUNTERS */}
-      <section style={{ maxWidth: 1080, margin: '0 auto', padding: '64px 40px 8px' }}>
+      <section style={{ maxWidth: 1080, margin: '0 auto', padding: 'var(--pad-64) var(--gutter) 8px' }}>
         <Viz01_StatCounters />
       </section>
 
       {/* OPENING QUOTE */}
-      <section style={{ maxWidth: 1080, margin: '0 auto', padding: '64px 40px' }}>
+      <section style={{ maxWidth: 1080, margin: '0 auto', padding: 'var(--pad-64) var(--gutter)' }}>
         <div style={{ display: 'grid', gridTemplateColumns: 'auto 1fr', gap: 28, alignItems: 'start' }}>
-          <div style={{ fontFamily: "'Instrument Serif',serif", fontSize: 120, lineHeight: 0.7, color: '#D85A30' }}>&ldquo;</div>
+          <div style={{ fontFamily: "'Instrument Serif',serif", fontSize: 'var(--quote-mark)', lineHeight: 0.7, color: '#D85A30' }}>&ldquo;</div>
           <div>
             <p className="stretch" style={{ fontFamily: "'Instrument Serif',serif", fontStyle: 'italic', fontSize: 'clamp(24px,3.2vw,38px)', lineHeight: 1.28, color: 'var(--ink)', margin: '8px 0 18px', maxWidth: 760 }}>
               {quotes.hero.text}
@@ -50,13 +50,13 @@ export default function Start() {
       </section>
 
       {/* VIZ: Claude Stack */}
-      <section style={{ maxWidth: 1080, margin: '0 auto', padding: '0 40px 64px' }}>
+      <section style={{ maxWidth: 1080, margin: '0 auto', padding: '0 var(--gutter) var(--pad-64)' }}>
         <FigureLabel>Figure 0.1 — The Claude Stack</FigureLabel>
         <Viz02_ClaudeStack />
       </section>
 
       {/* CONTENTS INDEX */}
-      <section style={{ maxWidth: 1080, margin: '0 auto', padding: '24px 40px 40px' }}>
+      <section style={{ maxWidth: 1080, margin: '0 auto', padding: '24px var(--gutter) var(--gutter)' }}>
         <div style={{
           fontFamily: "'JetBrains Mono',monospace", fontSize: 11, letterSpacing: '0.14em', textTransform: 'uppercase',
           color: 'var(--faint)', marginBottom: 8, borderBottom: '1px solid var(--line)', paddingBottom: 16,
@@ -69,11 +69,11 @@ export default function Start() {
             onClick={() => navigate(ch.to)}
             className="lift"
             style={{
-              display: 'grid', gridTemplateColumns: '120px 1fr auto', alignItems: 'center', gap: 28,
+              display: 'grid', gridTemplateColumns: 'var(--chnum-col) 1fr auto', alignItems: 'center', gap: 28,
               padding: '30px 20px', cursor: 'pointer', borderBottom: '1px solid var(--line)', background: 'transparent',
             }}
           >
-            <div style={{ fontFamily: "'Instrument Serif',serif", fontSize: 34, color: '#D85A30', lineHeight: 1 }}>{ch.num}</div>
+            <div style={{ fontFamily: "'Instrument Serif',serif", fontSize: 'var(--chnum-font)', color: '#D85A30', lineHeight: 1 }}>{ch.num}</div>
             <div>
               <div className="stretch" style={{ fontFamily: "'Instrument Serif',serif", fontSize: 30, lineHeight: 1.1, letterSpacing: '-0.01em' }}>
                 {ch.title}
@@ -88,7 +88,7 @@ export default function Start() {
       </section>
 
       {/* FOOTER */}
-      <footer style={{ maxWidth: 1080, margin: '0 auto', padding: '40px 40px 90px' }}>
+      <footer style={{ maxWidth: 1080, margin: '0 auto', padding: 'var(--gutter) var(--gutter) 90px' }}>
         <div style={{ fontFamily: "'JetBrains Mono',monospace", fontSize: 11, letterSpacing: '0.06em', color: 'var(--faint)' }}>
           CLAUDE 101 · AN INDEPENDENT INTELLIGENCE DOSSIER BY TITUS LIM · 2026 · NOT AFFILIATED WITH ANTHROPIC
         </div>

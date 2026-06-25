@@ -1,5 +1,6 @@
 import { useMemo, useState } from 'react';
 import { products, featureRows, categories, NA } from '../data/featureComparison';
+import { useIsMobile } from '../hooks/useIsMobile';
 
 const SCORE_BANDS = [
   { min: 10, bg: '#C0DD97', fg: '#27500A' },
@@ -39,6 +40,7 @@ function Pip({ s }) {
 }
 
 export default function Viz14_FeatureComparisonTable() {
+  const isMobile = useIsMobile(640);
   const [active, setActive] = useState('all');
 
   const rows = useMemo(
@@ -83,6 +85,85 @@ export default function Viz14_FeatureComparisonTable() {
         ))}
       </div>
 
+      {isMobile ? (
+        <div style={{ display: 'flex', flexDirection: 'column', gap: 10 }}>
+          {rows.map((r, i) => {
+            const showCat = r.cat !== lastCat;
+            lastCat = r.cat;
+            return (
+              <div key={i}>
+                {showCat && (
+                  <div style={{
+                    fontSize: 10, fontWeight: 500, letterSpacing: '0.06em', textTransform: 'uppercase',
+                    color: 'var(--faint)', padding: '10px 2px 6px',
+                  }}>{r.cat}</div>
+                )}
+                <div style={{ border: '1px solid var(--line)', borderRadius: 4, padding: '12px 14px' }}>
+                  <div style={{ fontWeight: 500, color: 'var(--ink)' }}>{r.feat}</div>
+                  <div style={{ fontSize: 11, color: 'var(--faint)', marginTop: 2 }}>{r.sub}</div>
+                  <div style={{ display: 'flex', flexWrap: 'wrap', gap: 12, margin: '10px 0' }}>
+                    {products.map((p, pi) => (
+                      <div key={p} style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', gap: 4 }}>
+                        <span style={{
+                          fontSize: 9.5, fontFamily: "'JetBrains Mono',monospace", textTransform: 'uppercase',
+                          color: p === 'Claude' ? '#D85A30' : 'var(--muted)',
+                        }}>{p}</span>
+                        <Pip s={r.sc[pi]} />
+                      </div>
+                    ))}
+                  </div>
+                  <div style={{ fontSize: 11.5, lineHeight: 1.5, color: 'var(--muted)' }}>{r.cm}</div>
+                </div>
+              </div>
+            );
+          })}
+
+          <div style={{ border: '1px solid var(--lineStrong)', borderRadius: 4, padding: '12px 14px' }}>
+            <div style={{ fontWeight: 500 }}>
+              Total score
+              <small style={{ display: 'block', fontSize: 10, color: 'var(--faint)', fontWeight: 400, marginTop: 2 }}>Sum of all rated features</small>
+            </div>
+            <div style={{ display: 'flex', flexWrap: 'wrap', gap: 12, margin: '10px 0' }}>
+              {totals.map((t, i) => (
+                <div key={i} style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', gap: 4 }}>
+                  <span style={{ fontSize: 9.5, fontFamily: "'JetBrains Mono',monospace", textTransform: 'uppercase', color: 'var(--muted)' }}>{products[i]}</span>
+                  <span style={{
+                    fontFamily: "'Instrument Serif',serif", fontSize: 18,
+                    ...(t === maxTotal ? { background: 'var(--fill)', color: 'var(--fillInk)' } : { color: 'var(--ink)' }),
+                    borderRadius: 6, padding: '2px 10px', display: 'inline-block',
+                  }}>{t}</span>
+                  <span style={{ fontSize: 10, color: 'var(--faint)', fontFamily: "'JetBrains Mono',monospace" }}>{counts[i]} features</span>
+                </div>
+              ))}
+            </div>
+            <div style={{ fontSize: 11, color: 'var(--faint)' }}>
+              N/A features excluded from total — a product that does fewer things well shouldn't be penalised for choosing its lane.
+            </div>
+          </div>
+
+          <div style={{ border: '1px solid var(--line)', borderRadius: 4, padding: '12px 14px' }}>
+            <div style={{ fontWeight: 500 }}>
+              Quality average
+              <small style={{ display: 'block', fontSize: 10, color: 'var(--faint)', fontWeight: 400, marginTop: 2 }}>Score ÷ features rated</small>
+            </div>
+            <div style={{ display: 'flex', flexWrap: 'wrap', gap: 12, margin: '10px 0' }}>
+              {avgs.map((a, i) => (
+                <div key={i} style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', gap: 4 }}>
+                  <span style={{ fontSize: 9.5, fontFamily: "'JetBrains Mono',monospace", textTransform: 'uppercase', color: 'var(--muted)' }}>{products[i]}</span>
+                  <span style={{
+                    fontFamily: "'Instrument Serif',serif", fontSize: 18,
+                    ...(a === maxAvg && a > 0 ? { background: 'var(--fill)', color: 'var(--fillInk)' } : { color: 'var(--ink)' }),
+                    borderRadius: 6, padding: '2px 10px', display: 'inline-block',
+                  }}>{a.toFixed(1)}</span>
+                </div>
+              ))}
+            </div>
+            <div style={{ fontSize: 11, color: 'var(--faint)' }}>
+              How good each product is at what it actually does. Cursor scores high here — it does fewer things but executes with surgical precision.
+            </div>
+          </div>
+        </div>
+      ) : (
       <div style={{ overflowX: 'auto', border: '1px solid var(--line)', borderRadius: 4 }}>
         <table style={{ width: '100%', minWidth: 980, borderCollapse: 'collapse', fontSize: 13 }}>
           <thead>
@@ -152,6 +233,7 @@ export default function Viz14_FeatureComparisonTable() {
           </tbody>
         </table>
       </div>
+      )}
 
       <div style={{ display: 'flex', gap: 14, flexWrap: 'wrap', marginTop: 16, paddingTop: 16, borderTop: '1px solid var(--line2)' }}>
         {[

@@ -1,6 +1,23 @@
 import { distillationLabs } from '../data/content';
+import { useIsMobile } from '../hooks/useIsMobile';
 
-function ArrowRight({ label }) {
+function Arrow({ label, vertical }) {
+  if (vertical) {
+    return (
+      <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', flex: 'none' }}>
+        <svg width="24" height="40" viewBox="0 0 24 40" style={{ flex: 'none' }}>
+          <line x1="12" y1="2" x2="12" y2="32" stroke="#D85A30" strokeWidth="2" />
+          <path d="M4 24 L12 34 L20 24" fill="none" stroke="#D85A30" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
+        </svg>
+        <div style={{
+          fontFamily: "'JetBrains Mono',monospace", fontSize: 10.5, letterSpacing: '0.03em',
+          color: 'var(--faint)', textAlign: 'center', marginTop: 2, lineHeight: 1.3,
+        }}>
+          {label}
+        </div>
+      </div>
+    );
+  }
   return (
     <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', flex: 'none', width: 120 }}>
       <svg width="100" height="20" viewBox="0 0 100 20" style={{ flex: 'none' }}>
@@ -34,20 +51,25 @@ function Box({ title, sub, coral, minWidth = 140 }) {
 }
 
 export default function Viz13_DistillationFlow() {
+  const isMobile = useIsMobile(640);
+
   return (
     <div style={{ background: 'var(--surface)', borderRadius: 4, padding: '28px 24px' }}>
-      <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', gap: 0, flexWrap: 'wrap' }}>
+      <div style={{
+        display: 'flex', alignItems: 'center', justifyContent: 'center', gap: 0,
+        flexDirection: isMobile ? 'column' : 'row', flexWrap: isMobile ? 'nowrap' : 'wrap',
+      }}>
         <div style={{ display: 'flex', flexDirection: 'column', gap: 10, flex: 'none' }}>
           {distillationLabs.map((lab) => (
             <Box key={lab.name} title={lab.name} minWidth={150} />
           ))}
         </div>
 
-        <ArrowRight label="24,000 fake accounts" />
+        <Arrow label="24,000 fake accounts" vertical={isMobile} />
 
         <Box title="Claude API" coral minWidth={150} />
 
-        <ArrowRight label="16 million exchanges" />
+        <Arrow label="16 million exchanges" vertical={isMobile} />
 
         <Box title="Training data extracted" minWidth={150} />
       </div>

@@ -1,4 +1,5 @@
 import { modelTiers } from '../data/content';
+import { useIsMobile } from '../hooks/useIsMobile';
 
 const TONE_OPACITY = {
   locked: 0.12,
@@ -17,15 +18,17 @@ const TONE_WIDTH = {
 };
 
 export default function Viz06_ModelFamilyHierarchy() {
+  const isMobile = useIsMobile(640);
+
   return (
     <div style={{ background: 'var(--surface)', borderRadius: 4, padding: '20px 24px', display: 'flex', flexDirection: 'column', gap: 8, minHeight: 240 }}>
       {modelTiers.map((tier) => {
         const locked = tier.tone === 'locked';
         return (
-          <div key={tier.name} style={{ display: 'flex', alignItems: 'center', gap: 14 }}>
+          <div key={tier.name} style={{ display: 'flex', flexDirection: isMobile ? 'column' : 'row', alignItems: isMobile ? 'stretch' : 'center', gap: isMobile ? 6 : 14 }}>
             <div
               style={{
-                width: TONE_WIDTH[tier.tone],
+                width: isMobile ? '100%' : TONE_WIDTH[tier.tone],
                 background: locked ? 'var(--line)' : '#D85A30',
                 opacity: locked ? 1 : TONE_OPACITY[tier.tone],
                 borderRadius: 4,

@@ -1,4 +1,5 @@
 import { AnalogyBox, StatGrid, HighlightBox, PullQuote, DataTable, VerdictBox, SectionDivider, VizPlaceholder } from '../components';
+import { useIsMobile } from '../hooks/useIsMobile';
 
 const sampleStats = [
   { value: '80.3', label: 'SWE-bench' },
@@ -19,8 +20,9 @@ const sampleRows = [
 ];
 
 function Block({ n, title, children, span }) {
+  const isMobile = useIsMobile(560);
   return (
-    <div style={{ gridColumn: span ? 'span 2' : undefined }}>
+    <div style={{ gridColumn: span && !isMobile ? 'span 2' : undefined }}>
       <div style={{ fontFamily: "'JetBrains Mono',monospace", fontSize: 11, letterSpacing: '0.1em', textTransform: 'uppercase', color: 'var(--faint)', marginBottom: 13 }}>
         {n} · {title}
       </div>
@@ -31,7 +33,7 @@ function Block({ n, title, children, span }) {
 
 export default function ComponentsPage() {
   return (
-    <main style={{ maxWidth: 960, margin: '0 auto', padding: '72px 40px 90px' }}>
+    <main style={{ maxWidth: 960, margin: '0 auto', padding: 'var(--pad-72) var(--gutter) 90px' }}>
       <div style={{ fontFamily: "'JetBrains Mono',monospace", fontSize: 12, letterSpacing: '0.14em', textTransform: 'uppercase', color: 'var(--fillLabel)', marginBottom: 22 }}>
         Reference · For Claude Code
       </div>
@@ -42,7 +44,7 @@ export default function ComponentsPage() {
         Every reusable block, in one place.
       </p>
 
-      <div style={{ display: 'grid', gridTemplateColumns: 'repeat(2,1fr)', gap: '30px 34px' }}>
+      <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(260px,1fr))', gap: '30px 34px' }}>
         <Block n="01" title="Analogy box">
           <AnalogyBox>Fill defines it — no border. Mono tag, serif body on a #FAECE7 ground.</AnalogyBox>
         </Block>

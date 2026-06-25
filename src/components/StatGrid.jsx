@@ -1,8 +1,7 @@
-export default function StatGrid({ stats, columns }) {
-  const cols = columns || stats.length;
+export default function StatGrid({ stats }) {
   return (
     <div style={{
-      display: 'grid', gridTemplateColumns: `repeat(${cols}, 1fr)`, gap: 1,
+      display: 'grid', gridTemplateColumns: `repeat(auto-fit, minmax(min(150px, 100%), 1fr))`, gap: 1,
       background: 'var(--line)', border: '1px solid var(--line)', borderRadius: 4,
       overflow: 'hidden', margin: '0 0 34px',
     }}>
