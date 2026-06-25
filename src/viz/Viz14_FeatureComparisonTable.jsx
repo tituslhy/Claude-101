@@ -27,6 +27,13 @@ function fmt(s) {
   return Number.isInteger(s) ? String(s) : s.toFixed(1);
 }
 
+const stickyHeadCell = {
+  position: 'sticky', top: 0, zIndex: 10,
+  fontFamily: "'JetBrains Mono',monospace", fontSize: 11, textTransform: 'uppercase',
+  background: 'var(--surface)', borderBottom: '1px solid var(--line)',
+  boxShadow: '0 2px 6px -2px rgba(0,0,0,0.18)',
+};
+
 function Pip({ s }) {
   return (
     <span style={{
@@ -164,19 +171,18 @@ export default function Viz14_FeatureComparisonTable() {
           </div>
         </div>
       ) : (
-      <div style={{ overflowX: 'auto', border: '1px solid var(--line)', borderRadius: 4 }}>
-        <table style={{ width: '100%', minWidth: 980, borderCollapse: 'collapse', fontSize: 13 }}>
+      <div style={{ overflowX: 'auto', overflowY: 'auto', maxHeight: '70vh', border: '1px solid var(--line)', borderRadius: 4 }}>
+        <table style={{ width: '100%', minWidth: 980, borderCollapse: 'separate', borderSpacing: 0, fontSize: 13 }}>
           <thead>
             <tr>
-              <th style={{ textAlign: 'left', width: 170, padding: '11px 12px', fontFamily: "'JetBrains Mono',monospace", fontSize: 11, textTransform: 'uppercase', color: 'var(--muted)', background: 'var(--surface)', borderBottom: '1px solid var(--line)' }}>Feature</th>
+              <th style={{ ...stickyHeadCell, textAlign: 'left', width: 170, padding: '11px 12px', color: 'var(--muted)' }}>Feature</th>
               {products.map((p) => (
                 <th key={p} style={{
-                  textAlign: 'center', padding: '11px 8px', whiteSpace: 'nowrap',
-                  fontFamily: "'JetBrains Mono',monospace", fontSize: 11, textTransform: 'uppercase',
-                  color: p === 'Claude' ? '#D85A30' : 'var(--muted)', background: 'var(--surface)', borderBottom: '1px solid var(--line)',
+                  ...stickyHeadCell, textAlign: 'center', padding: '11px 8px', whiteSpace: 'nowrap',
+                  color: p === 'Claude' ? '#D85A30' : 'var(--muted)',
                 }}>{p}</th>
               ))}
-              <th style={{ textAlign: 'left', minWidth: 230, padding: '11px 12px', fontFamily: "'JetBrains Mono',monospace", fontSize: 11, textTransform: 'uppercase', color: 'var(--muted)', background: 'var(--surface)', borderBottom: '1px solid var(--line)' }}>Honest verdict</th>
+              <th style={{ ...stickyHeadCell, textAlign: 'left', minWidth: 230, padding: '11px 12px', color: 'var(--muted)' }}>Honest verdict</th>
             </tr>
           </thead>
           <tbody>
