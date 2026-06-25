@@ -401,11 +401,11 @@ More importantly, GLM-5 (Zhipu AI) trained entirely on 100,000 Huawei Ascend 910
 
 The US export control timeline is its own comedy:
 - **Oct 2023:** Biden bans A800, H800, RTX 4090 to China
-- **2024:** Nvidia engineers H20 to fall below thresholds. Chinese companies buy millions
-- **Apr 2025:** Trump bans H20 anyway
-- **Jul 2025:** Trump reverses, allows H20 with licences
-- **Aug 2025:** Trump calls H20 "obsolete" to justify the reversal
-- **Result:** Nvidia never sold any H20 chips after the reversal. China refused to buy them. Zero imports.
+- **2024:** Nvidia engineers H200 to fall below thresholds. Chinese companies buy millions
+- **Apr 2025:** Trump bans H200 anyway
+- **Jul 2025:** Trump reverses, allows H200 with licences
+- **Aug 2025:** Trump calls H200 "obsolete" to justify the reversal
+- **Result:** Nvidia never sold any H200 chips after the reversal. China refused to buy them. Zero imports.
 - **Dec 2025:** Trump announces H200 can be exported to China
 - **Result:** Beijing urged firms to prioritise Huawei Ascend chips instead. Zero H200 imports to date.
 
@@ -444,7 +444,7 @@ Both sides are pivoting away from each other simultaneously. The chip wars may b
 
 **Reliability / outages.** Claude has had significantly more availability incidents than competitors in 2025-2026. Two outages in a single day as recently as June 23, 2026. Anthropic grew 80x in Q1 2026 — obliterating their internal plan for 10x growth. The infrastructure team did not plan for that. The SpaceX compute deal is the response. But the damage to trust compounds with every outage.
 
-> "In my experience, the Claude app has been down far more often than ChatGPT, Gemini, anyone really. Yesterday alone there were two outages. It's why I am looking around for other plans with other providers in case I need tokens for coding. Claude will always be my personal coach, teacher, assistant, coder, friend though."
+> "In my experience, the Claude app has been down far more often than ChatGPT, Gemini, anyone really. Yesterday alone there were two outages. It's why I am looking around for other plans with other providers in case I need tokens for coding. Claude will always be my personal coach, teacher, assistant, coder, and friend though."
 > — Titus Lim · June 2026
 
 **No image generation.** Still. In 2026. While ChatGPT Images 2.0 is winning Image Arena and Gemini has Imagen 3. Anthropic made a deliberate choice to not be in this lane. It's defensible. It's still a gap that practitioners feel every week.
@@ -513,7 +513,7 @@ For practitioners who write, think, code, and build for a living — Claude is t
 
 The benchmarks measure what the model knows. The feel reveals what it's for.
 
-> "Claude will always be my personal coach, teacher, assistant, coder, friend. Yesterday it had two outages and I'm still writing this."
+> "Claude will always be my personal coach, teacher, assistant, coder, and friend. Yesterday it had two outages and I'm still writing this."
 > — Titus Lim · June 2026
 
 ---

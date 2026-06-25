@@ -183,11 +183,11 @@ export const distillationLabs = [
 
 export const exportControlTimeline = [
   { date: 'Oct 2023', event: 'Biden bans A800, H800, RTX 4090 to China' },
-  { date: '2024', event: 'Nvidia engineers H20 below thresholds; China buys millions' },
-  { date: 'Apr 2025', event: 'Trump bans H20 anyway' },
-  { date: 'Jul 2025', event: 'Trump reverses, allows H20 with licences' },
-  { date: 'Aug 2025', event: "Trump calls H20 'obsolete' to justify the reversal" },
-  { date: '—', event: 'Nvidia sells zero H20 after reversal. China refuses to buy.' },
+  { date: '2024', event: 'Nvidia engineers H200 below thresholds; China buys millions' },
+  { date: 'Apr 2025', event: 'Trump bans H200 anyway' },
+  { date: 'Jul 2025', event: 'Trump reverses, allows H200 with licences' },
+  { date: 'Aug 2025', event: "Trump calls H200 'obsolete' to justify the reversal" },
+  { date: '—', event: 'Nvidia sells zero H200 after reversal. China refuses to buy.' },
   { date: 'Dec 2025', event: 'Trump announces H200 exportable to China' },
   { date: '—', event: 'Beijing pivots to Huawei Ascend. Zero H200 imports to date.' },
 ];
@@ -302,7 +302,7 @@ export const quotes = {
     attribution: 'TITUS LIM · 2026',
   },
   outages: {
-    text: 'In my experience, the Claude app has been down far more often than ChatGPT, Gemini, anyone really. Yesterday alone there were two outages. It\'s why I am looking around for other plans with other providers in case I need tokens for coding. Claude will always be my personal coach, teacher, assistant, coder, friend though.',
+    text: 'In my experience, the Claude app has been down far more often than ChatGPT, Gemini, anyone really. Yesterday alone there were two outages. It\'s why I am looking around for other plans with other providers in case I need tokens for coding. Claude will always be my personal coach, teacher, assistant, coder, and friend though.',
     attribution: 'TITUS LIM · JUNE 2026',
   },
   armory: {
@@ -310,7 +310,7 @@ export const quotes = {
     attribution: 'TITUS LIM · 2026',
   },
   final: {
-    text: 'Claude will always be my personal coach, teacher, assistant, coder, friend. Yesterday it had two outages and I\'m still writing this.',
+    text: 'Claude will always be my personal coach, teacher, assistant, coder, and friend. Yesterday it had two outages and I\'m still writing this.',
     attribution: 'TITUS LIM · JUNE 2026',
   },
 };
