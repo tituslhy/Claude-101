@@ -34,8 +34,56 @@ function DoubleArrow({ x1, y1, x2, y2 }) {
   return <line x1={x1} y1={y1} x2={x2} y2={y2} stroke="var(--faint)" strokeWidth={1.4} markerStart="url(#arrowStart)" markerEnd="url(#arrowEnd)" />;
 }
 
+function MobileLayout() {
+  return (
+    <div style={{ background: 'var(--surface)', borderRadius: 4, padding: '20px 18px' }}>
+      <div style={{
+        background: 'var(--cell)', border: '1px solid var(--line)', borderRadius: 6,
+        padding: '12px 16px', textAlign: 'center', fontWeight: 500, fontSize: 13, color: 'var(--ink)',
+      }}>
+        Your Agent
+      </div>
+      <div style={{ display: 'flex', justifyContent: 'center', margin: '4px 0' }}>
+        <svg width="20" height="28" viewBox="0 0 20 28">
+          <line x1="10" y1="2" x2="10" y2="20" stroke="var(--faint)" strokeWidth={1.4} />
+          <path d="M4 14 L10 22 L16 14" fill="none" stroke="var(--faint)" strokeWidth={1.4} strokeLinecap="round" strokeLinejoin="round" />
+        </svg>
+      </div>
+      <div style={{
+        background: 'var(--fill)', border: '1.6px solid #D85A30', borderRadius: 6,
+        padding: '12px 16px', textAlign: 'center',
+      }}>
+        <div style={{ fontWeight: 600, fontSize: 14, color: 'var(--fillInk)' }}>MCP Protocol</div>
+        <div style={{ fontSize: 10, fontFamily: "'JetBrains Mono',monospace", color: 'var(--fillLabel)', marginTop: 2 }}>ANY MODEL · ANY TOOL</div>
+      </div>
+      <div style={{ display: 'flex', justifyContent: 'center', margin: '4px 0' }}>
+        <svg width="20" height="28" viewBox="0 0 20 28">
+          <line x1="10" y1="2" x2="10" y2="20" stroke="var(--faint)" strokeWidth={1.4} />
+          <path d="M4 14 L10 22 L16 14" fill="none" stroke="var(--faint)" strokeWidth={1.4} strokeLinecap="round" strokeLinejoin="round" />
+        </svg>
+      </div>
+      <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 8 }}>
+        {TOOLS.map((tool) => (
+          <div key={tool} style={{
+            background: 'var(--cell)', border: '1px solid var(--line)', borderRadius: 6,
+            padding: '10px 8px', textAlign: 'center', fontSize: 12, fontWeight: 500, color: 'var(--ink)',
+          }}>
+            {tool}
+          </div>
+        ))}
+      </div>
+      <div style={{ fontSize: 12, color: 'var(--fillLabel)', textAlign: 'center', fontFamily: "'JetBrains Mono', monospace", letterSpacing: '0.02em', marginTop: 14 }}>
+        One protocol. Any model. Any tool.
+      </div>
+    </div>
+  );
+}
+
 export default function Viz08_MCPArchitecture() {
   const isMobile = useIsMobile(640);
+
+  if (isMobile) return <MobileLayout />;
+
   const toolCount = TOOLS.length;
   const svgH = 40 + toolCount * 44;
   const agentX = 20, agentW = 110, agentY = svgH / 2 - 26, agentH = 52;
@@ -44,8 +92,8 @@ export default function Viz08_MCPArchitecture() {
   const toolStartY = (svgH - (toolCount * 44 - 12)) / 2;
 
   return (
-    <div style={{ background: 'var(--surface)', borderRadius: 4, padding: '20px 24px', overflowX: isMobile ? 'auto' : 'visible' }}>
-      <svg viewBox={`0 0 540 ${svgH}`} width={isMobile ? 540 : '100%'} height={Math.max(220, svgH)} style={isMobile ? { display: 'block' } : undefined}>
+    <div style={{ background: 'var(--surface)', borderRadius: 4, padding: '20px 24px' }}>
+      <svg viewBox={`0 0 540 ${svgH}`} width="100%" height={Math.max(220, svgH)}>
         <defs>
           <marker id="arrowEnd" markerWidth="8" markerHeight="8" refX="6" refY="3" orient="auto">
             <path d="M0,0 L6,3 L0,6 Z" fill="var(--faint)" />

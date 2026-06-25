@@ -1,4 +1,5 @@
 import { AnalogyBox, StatGrid, HighlightBox, PullQuote, DataTable, VerdictBox, SectionDivider, VizPlaceholder } from '../components';
+import { useIsMobile } from '../hooks/useIsMobile';
 
 const sampleStats = [
   { value: '80.3', label: 'SWE-bench' },
@@ -19,8 +20,9 @@ const sampleRows = [
 ];
 
 function Block({ n, title, children, span }) {
+  const isMobile = useIsMobile(560);
   return (
-    <div style={{ gridColumn: span ? 'span 2' : undefined }}>
+    <div style={{ gridColumn: span && !isMobile ? 'span 2' : undefined }}>
       <div style={{ fontFamily: "'JetBrains Mono',monospace", fontSize: 11, letterSpacing: '0.1em', textTransform: 'uppercase', color: 'var(--faint)', marginBottom: 13 }}>
         {n} · {title}
       </div>
